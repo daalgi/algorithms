@@ -49,7 +49,7 @@ def iterative_merge_sort(a: list):
             if left2 >= n:
                 break
 
-            # Ajust right2 when it reaches the outside of the array,
+            # Adjust right2 when it reaches the outside of the array,
             # meaning that this part contains less elements than `size`
             if right2 >= n:
                 right2 = n - 1
