@@ -54,10 +54,10 @@ if __name__ == '__main__':
 
         result = count_sort([*array])
         string = f'count_sort({array_string}) = {str(result)}'
-        string += ' ' * (60 - len(string))
+        string += ' ' * (70 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
     print()
 
     array = test_cases[3][0]
-    print(f'--> Verbose example:\n Array: {array}')
+    print(f'>>> Verbose example:\nArray: {array}')
     count_sort([*array], verbose=True)

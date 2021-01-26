@@ -57,6 +57,6 @@ if __name__ == '__main__':
 
         result = merge_sort(array)
         string = f'merge_sort({array_string}) = {str(result)}'
-        string += ' ' * (60 - len(string))
+        string += ' ' * (70 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
     print()
