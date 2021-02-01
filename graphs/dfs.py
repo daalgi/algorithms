@@ -15,7 +15,7 @@ def dfs(graph, start_vertex, verbose: bool = False):
             stack.extend(reversed(graph[vertex]))
 
             if verbose:
-                string = f'-->Current vertex: {vertex}'
+                string = f'--> Current vertex: {vertex}'
                 string += f'\tConnected to: {str(graph[vertex])}'
                 string += ' ' * (60 - len(string)) + f'Stack: {str(stack)}'
                 print(string)
@@ -24,6 +24,9 @@ def dfs(graph, start_vertex, verbose: bool = False):
 
 
 if __name__ == '__main__':
+    print('-' * 60)
+    print('Depth first search algorithm (DFS)')
+    print('-' * 60)
     graphs = [
         {
             'A': ['B', 'S'],

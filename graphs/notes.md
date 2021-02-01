@@ -6,7 +6,7 @@ https://www.youtube.com/watch?v=09_LlHjoEiY&ab_channel=freeCodeCamp.org
 
 It can be applied to almost every problem. Examples: social network friends.
 
-## Types of graphs
+## 1. Types of graphs
 - Undirected graph
     - Edges have no orientation. The edge (u, v) is identical to the edge (v, u).
 - Directed graph (Digraph)
@@ -23,7 +23,7 @@ It can be applied to almost every problem. Examples: social network friends.
     - Unique edge between every pari of nodes.
     - Worst-case possible graph.
 
-## Representing graphs
+## 2. Representing graphs
 - **Adjacency matrix**: is a very simple way to represent a graph. The idea is that the cell m[i][j] represents the edge weight of going from node i to node j.
     - Pros: 
         - space efficient for representing dense graphs.
@@ -51,7 +51,7 @@ It can be applied to almost every problem. Examples: social network friends.
         - less space efficient for denser graphs.
         - edge weight lookup is O(E).
 
-## Common graph theory problems
+## 3. Common graph theory problems
 ### Shortest path problem
 Given a weighted graph, find the shortest path of edges from node A to node B.
 - Algorithms: BFS (unweighted graph), Dijkstra's, Bellman-Ford, Floyd-Warshall, A*, etc.
@@ -104,7 +104,7 @@ Suppose the edges are roads with cars, pipes with water or hallways packed with 
 
 - Algorithms: Ford-Fulkerson, Edmonds-Karp & Dinic's algorithm.
 
-## DEPTH FIRST SEARCH (DSF)
+## 4. DEPTH FIRST SEARCH (DSF)
 - It's the most fundamental search algorithm used to explore nodes and edges of a graph.
 - O(V+E) time complexity.
 - Often used as a building block in other algorithm.
@@ -114,3 +114,11 @@ By itself the DFS isn't all that useful, but when augmented to perform other tak
 DFS plunges depth first into a graph without regard for which edge it takes next until it cannot go any further at which point it backtracks and continues.
 
 Applications: topological sorting, scheduling problems, cycle detection in graphs, solving puzzles with only one solution (sudoku), maping routes, etc.
+
+### Connected Components
+Sometimes a graph is split into multiple components. It's useful to be able to identify and count these components.
+
+We can use a DFS to identify components.
+1. Make sure all the nodes are labeled from [0, n), where *n* is the number of nodes.
+2. Start a DFS at every node (except if it's already been visited) and mark all reachable nodes as being part of the same component.
+
