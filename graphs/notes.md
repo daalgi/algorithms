@@ -1,6 +1,6 @@
 # GRAPH THEORY
 Source: freeCodeCamp.org
-https://www.youtube.com/watch?v=09_LlHjoEiY&ab_channel=freeCodeCamp.org
+[Youtube video-course](https://www.youtube.com/watch?v=09_LlHjoEiY&ab_channel=freeCodeCamp.org)
 
 **Graph theory** is the mathematical theory of the properties and applications of graphs (networks).
 
@@ -121,4 +121,23 @@ Sometimes a graph is split into multiple components. It's useful to be able to i
 We can use a DFS to identify components.
 1. Make sure all the nodes are labeled from [0, n), where *n* is the number of nodes.
 2. Start a DFS at every node (except if it's already been visited) and mark all reachable nodes as being part of the same component.
+
+### What else can DFS do?
+- Compute a graph's minimum spanning tree.
+- Detect and find cycles in a graph.
+- Check if a graph is bipartite.
+- Find strongly connected components.
+- Topologically sort the nodes of a graph.
+- Find bridges and articulation points.
+- Find augmenting paths in a flow network.
+- Generate mazes.
+
+## 5. BREADTH FIRST SEARCH (BFS)
+The BFS is another fundamental search algorithm used to explore nodes and edges of a graph. It runs with a time complexity of O(V+E) and is often used as a building block in other algorithms.
+
+The BFS algorithm is particularly useful for one thing: finding the shortest path on unweighted graphs.
+
+A BFS starts at some arbitrary node of a graph and explores the neighbour nodes first, before moving to the next level neighbours.
+
+It explores the graph in a layer phasion. It does that by maintaining a queue of which node it should visit next.
 
