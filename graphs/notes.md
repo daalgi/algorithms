@@ -141,3 +141,14 @@ A BFS starts at some arbitrary node of a graph and explores the neighbour nodes 
 
 It explores the graph in a layer phasion. It does that by maintaining a queue of which node it should visit next.
 
+### BFS shortest path on a grid
+Motivation: many problems in graph theory can be represented using a grid. Grids are a form of implicit graph because we can determine a node's neighbours based on our location within the grid.
+
+A common approach to solving graph theory problems on grids is to first convert the grid to a familiar format such as an adjacency list/matrix.
+
+Convert an empty grid into an adjacency list:
+1. Label the cells in the grid with numbers [0, n), where `n = n_rows x n_columns`.
+2. Form an adjancency matrix n * n.
+3. Run whatever specialized graph algorithm to solve our problem (shortest path, connected components, ...).
+
+However, transformations between graph representations can usually be avoided due to the structure of a grid. If we are at a `red ball` in the middle we can move left, right, up and down to reach adjacent cells. Mathematically, if the `red ball` is at the row-column coordinate (r, c) we can add the row vectors `[-1, 0]`, `[1, 0]`, `[0, 1]`, and `[0, -1]` to reach adjacent cells. If the problem allows moving diagonally then you can also include the row vectors: `[-1, -1]`, `[-1, 1]`, `[1, 1]`, `[1, -1]`
