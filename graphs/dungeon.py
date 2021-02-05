@@ -4,7 +4,9 @@ SHORTEST PATH WITH BREADTH FIRST SEARCH (BFS)
 import queue
 
 class ShortestPath:
-    def __init__(self, grid: list, start: tuple):
+    def __init__(self, grid: list, start: tuple, verbose: bool = False):
+        self.verbose = verbose
+
         # Class scope variables
         self.grid = grid
         self.rows = len(grid)
@@ -42,9 +44,19 @@ class ShortestPath:
             r = self.rq.get()
             c = self.cq.get()
 
+            if self.verbose:
+                string = f'Move {self.move_count:>2}\t\t'
+                string += f'Node: {r, c}\t'
+                queue_list = [(x,y) for x, y in zip(self.rq.queue, self.cq.queue)]
+                string += f'Queue: {str(queue_list)}'
+                print(string)
+
             # Check if we reached the exit
             if self.grid[r][c] == 'E':
                 self.reached_end = True
+
+                if self.verbose:
+                    print(f'End reached: {r, c}')
                 break
 
             self.explore_neighbours(r, c)
@@ -98,7 +110,7 @@ class ShortestPath:
                     out += ' # '
                 else:
                     out += ' - '
-        print(out)
+        print(out + '\n')
 
 
 if __name__ == '__main__':
@@ -127,12 +139,12 @@ if __name__ == '__main__':
         grid
     ]
 
-    testcases = [
+    test_cases = [
         (grids[0], (0, 0), 7),
         (grids[1], (3, 3), 13),
     ]
 
-    for grid, start, solution in testcases:
+    for grid, start, solution in test_cases:
         print(f'Starting point: {start}')
         p = ShortestPath(grid, start)
         print('Dungeon:', end='')
@@ -142,3 +154,9 @@ if __name__ == '__main__':
         if solution:
             print(f'Test: {"OK" if solution == result else "NOT OK"}')
         print()
+
+
+    grid, start, _ = test_cases[0]
+    print(f'>>> Verbose example:')
+    p = ShortestPath(grid, start, verbose=True)
+    p.print_solved_grid()
