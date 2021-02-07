@@ -1,7 +1,7 @@
 """
 SHORTEST PATH WITH BREADTH FIRST SEARCH (BFS)
 """
-import queue
+import queue, random
 
 class ShortestPath:
     def __init__(self, grid: list, start: tuple, verbose: bool = False):
@@ -136,12 +136,19 @@ if __name__ == '__main__':
 
     grids = [
         [[1, 1, 1, 1], [1, 1, 0, 1], [1, 1, 0, 1], [0, 1, 0, 1], [1, 1, 0, 'E']], 
-        grid
+        grid,
+        [[random.randint(0, 1) for _ in range(20)] for _ in range(20)],
+        [[random.randint(0, 1) if i & 1 == 0 else 1 
+            for i in range(20)] for _ in range(20)]
     ]
+    grids[2][17][13] = 'E'
+    grids[3][19][17] = 'E'
 
     test_cases = [
         (grids[0], (0, 0), 7),
         (grids[1], (3, 3), 13),
+        (grids[2], (3, 3), None),
+        (grids[3], (3, 1), None),
     ]
 
     for grid, start, solution in test_cases:
@@ -149,10 +156,13 @@ if __name__ == '__main__':
         p = ShortestPath(grid, start)
         print('Dungeon:', end='')
         p.print_solved_grid()
-        result = p.move_count
-        print(f'Number of moves: {result}')
-        if solution:
-            print(f'Test: {"OK" if solution == result else "NOT OK"}')
+        if p.reached_end:
+            result = p.move_count
+            print(f'Number of moves: {result}')
+            if solution:
+                print(f'Test: {"OK" if solution == result else "NOT OK"}')
+        else:
+            print("Couldn't reach the end!")
         print()
 
 
