@@ -17,7 +17,8 @@ def dfs(graph, start_vertex, verbose: bool = False):
             if verbose:
                 string = f'--> Current vertex: {vertex}'
                 string += f'\tConnected to: {str(graph[vertex])}'
-                string += ' ' * (60 - len(string)) + f'Stack: {str(stack)}'
+                string += ' ' * (60 - len(string)) 
+                string += f'Stack: {str(stack)}'
                 print(string)
 
     return traversal
