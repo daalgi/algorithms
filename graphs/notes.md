@@ -152,3 +152,44 @@ Convert an empty grid into an adjacency list:
 3. Run whatever specialized graph algorithm to solve our problem (shortest path, connected components, ...).
 
 However, transformations between graph representations can usually be avoided due to the structure of a grid. If we are at a `red ball` in the middle we can move left, right, up and down to reach adjacent cells. Mathematically, if the `red ball` is at the row-column coordinate (r, c) we can add the row vectors `[-1, 0]`, `[1, 0]`, `[0, 1]`, and `[0, -1]` to reach adjacent cells. If the problem allows moving diagonally then you can also include the row vectors: `[-1, -1]`, `[-1, 1]`, `[1, 1]`, `[1, -1]`
+
+## 6. TOPOLOGICAL SORT (TOPSORT)
+- Many real world situations can be modelled as a graph with directed edges where some events must occur before others.
+    - School class prerequisites.
+    - Program dependencies.
+    - Event scheduling.
+    - Assembly instructions.
+
+A topological ordering is an ordering of the nodes in a directed graph where for each directed edge from node A to node B, node A appears before B in the ordering.
+
+The topological sort algorithm can find a topological ordering in O(V+E) time!
+
+Note: topological orderings are NOT unique.
+
+**Directed acyclic graphs (DAG)**
+Not every graph can have a topological ordering. A graph which contains a cycle cannot have a valid ordering.
+
+The only type of graph which has a valid topological ordering is a Directed Acyclic Graph (DAG). These are graphs with directed edges and no cycles.
+
+- How do I verify that my graph does not contain a directed cycle?
+- One method is to use Tarjan's strongly connected component algorithm which can be used to find these cycles.
+
+By definition, all rooted trees have a topological ordering since they do not contain any cycles.
+
+**Topological sort algorithm**
+- Pick an unvisited node.
+- Beginning with the selected node, do a DFS exploring only unvisited nodes.
+- On the recursive callback of the DFS, add the current node to the topological ordering in reverse order.
+
+## 7. SHORTEST AND LONGEST PATHS ON DAGs
+DAG: graph with directed edges and no cycles
+
+By definition, this means that all trees are automatically DAGs, since they do not contain cycles.
+
+### SSSP on DAG
+The Single Source Shortest Path (SSSP) problem can be solved efficiently on a DAG in O(V+E) time. This is due to the fact that the nodes can be ordered in a topological ordering via topsort and processed sequentially.
+
+### Longest path on DAG
+On a general graph, this is a problem NP-Hard, but on a DAG this problem is solvable in O(V+E)!
+
+The trick is to multiply all edge values by -1, and then find the shortest path and then multiply the edge values by -1 again!
