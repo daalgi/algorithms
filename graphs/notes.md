@@ -193,3 +193,23 @@ The Single Source Shortest Path (SSSP) problem can be solved efficiently on a DA
 On a general graph, this is a problem NP-Hard, but on a DAG this problem is solvable in O(V+E)!
 
 The trick is to multiply all edge values by -1, and then find the shortest path and then multiply the edge values by -1 again!
+
+
+## 8. Dijkstra's shortest path algorithm
+Dijkstra's algorithm is a Single Source Shortest Path (SSSP) algorithm for graphs with non-negative edge weights.
+
+SSSP: at the beggining you need to specify a starting node to indicate a relative starting point.
+
+Depending on how the algorithm is implemented and what data structures are used, the time complexity is typically O(E * log(V)), which is competitive against other shortest path algorithms.
+
+### Prerequisites
+- Graphs must only contain non-negative edge weights. This constraint is imposed to ensure that once a node has been visited, its optimal distance cannot be improved. This property is especially important, because it enables Dijkstra's algorithm to act in a greedy manner by always selecting the next most promising node.
+
+### Overview
+Maintain a 'dist' array where the distance to every node is positive infinity. Mark the distance to the start node 's' to be 0.
+
+Maintain a priority-queue PQ of key-value pairs of (node index, distance) pairs which tell you which node to visit next based on sorted min value.
+
+Insert (s, 0) into the PQ and loop while PQ is not empty, pulling out the next most promising (node index, distance) pair.
+
+Iterate over all edges outwards from the current node and relax each edge appending a new (node index, distance) key-value pair to the PQ for every relaxation.
