@@ -127,7 +127,7 @@ if __name__ == '__main__':
     
     for array, solution in test_cases:
         string = f'quicksort({str(array)}) = {str(main(array))}'
-        string += ' ' * (60 - len(string))
+        string += ' ' * (70 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == array else "NOT OK"}')      
     print()
     
