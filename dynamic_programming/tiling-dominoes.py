@@ -61,7 +61,7 @@ if __name__ == "__main__":
     
     for n, solution in test_cases:        
         res = tiling_dominoes(n)
-        string = f'Rectange 2x{n}'
+        string = f'Rectangle 2x{n}'
         string += ' ' * (25 - len(string)) + f'Possible tilings: {res}'
         if solution is not None:
             string += ' ' * (75 - len(string))
