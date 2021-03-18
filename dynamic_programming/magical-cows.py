@@ -34,10 +34,14 @@ inspecting on any given day.
 """
 def number_of_farms(capacity: int, initial_cows: list, day: int):
     """
-    Keyword arguments:
-    capacity -- maximum numberof cows per farm
-    initial_cows -- list with the number of initial cows in each of the original farms
-    day -- day in which the regulator will inspect the farm
+    Parameters
+    ----------
+    capacity: int
+        maximum numberof cows per farm
+    initial_cows: list
+        list with the number of initial cows in each of the original farms
+    day: int
+        day in which the regulator will inspect the farm
     """
     # Frequency list to keep track of the number of farms
     # with the different possible capacities at

@@ -6,8 +6,10 @@ In how many ways can you tile a 3×n rectangle with 2×1 dominoes?
 """
 def tiling_dominoes(n: int):
     """
-    Keyword arguments:
-    n -- width of the rectangle 3xn to tile with 2x1 dominoes
+    Parameters
+    ----------
+    n: int
+        width of the rectangle 3xn to tile with 2x1 dominoes
     """
     # If the width is even, there's no solution
     if n & 1 != 0: return 0
