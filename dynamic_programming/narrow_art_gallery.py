@@ -20,24 +20,27 @@ has to the general public, and now she wants to close off those `K`
 rooms that leave the most value available to the public, without
 blocking passage through the gallery.
 """
+from collections import defaultdict
 LEFT = 0 # constant for the left gallery column
 RIGHT = 1 # constant for the right gallery column
 INF = 1E9 # a large enough inifinity for this problem
 
-gallery = [] #
-
 def solve(gallery: list, k: int):
     n = len(gallery)
-    dp = [[[None for _ in range(2)] for _ in range(n)] for _ in range(k+1)]
+    # If dp were a 3D list, less memory efficient for large `N` and `K`
+    # dp = [[[None for _ in range(2)] for _ in range(n)] for _ in range(k+1)]
+    dp = defaultdict(tuple)
     suma = 0
     for i in range(n):
         suma += gallery[i][LEFT] + gallery[i][RIGHT]
     return suma - f(k, n-1, gallery, dp)
 
-def f(k: int, r: int, g: list, dp: list):
+def f(k: int, r: int, g: list, dp: dict):
+    # Return the minimum value of closed rooms
+    # min(finishing in the top left room, finishing in the top right room)
     return min(state(k, r, LEFT, g, dp), state(k, r, RIGHT, g, dp))
 
-def state(k: int, r: int, c: int, g: list, dp: list):
+def state(k: int, r: int, c: int, g: list, dp: dict):
     """
     Parameters
     ----------
@@ -64,11 +67,11 @@ def state(k: int, r: int, c: int, g: list, dp: list):
         return 0
     if r < 0:
         return INF
-    if dp[k][r][c] is not None:
-        return dp[k][r][c]
+    if dp[(k, r, c)]:
+        return dp[(k, r, c)]
     # Get the value of the current room at row `r` column `c`
     room_value = g[r][c]
-    dp[k][r][c] = min(
+    dp[(k, r, c)] = min(
         # Close the current room, and take the best value from the partial
         # state directly below the current room
         state(k-1, r-1, c, g, dp) + room_value,
@@ -77,7 +80,7 @@ def state(k: int, r: int, c: int, g: list, dp: list):
         state(k, r-1, c, g, dp),
         state(k, r-1, c ^ 1, g, dp) # operator XOR: 1 ^ 1 = 0, 0 ^ 1 = 1
     )
-    return dp[k][r][c]
+    return dp[(k, r, c)]
         
 
 if __name__ == "__main__":
@@ -111,4 +114,3 @@ if __name__ == "__main__":
             string += f'\tTest: {"OK" if res == solution else "NOT OK"}'
         print(string)
         print()
-    print()
