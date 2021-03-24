@@ -1,5 +1,6 @@
 from random import shuffle, randint, choice
 from copy import deepcopy
+import os
 
 
 def random_int_within_block(i: int):
@@ -63,13 +64,12 @@ def print_matrix(arr: list):
             out += f'  {val if val else "."}  '
         print(out + '\n')
 
-
 class Board:
 
     def __init__(self, array: list = None):
         self.size = len(array) if array else 9
         self.num_cells = self.size * self.size if array else 81
-        self.array = array
+        self.array = deepcopy(array)
         self.solution = []
         
     def get_row(self, index: int):
@@ -292,6 +292,46 @@ class Board:
         print_matrix(self.solution)
 
 
+def read_sudokus(file: str):
+    """
+    Parameters
+    ----------
+    file: str
+        name of the txt file containing sudokus (including path).
+        It may contain multiple sudoku grids, separated by an empty line.
+        Example of one sudoku:
+            308062015
+            400000060
+            060070008
+            802400107
+            000008300
+            000053280
+            000500670
+            200000000
+            010020540
+    
+    Returns
+    -------
+    list
+        list of Board instances, each one containing a sudoku grid
+    """
+    if not os.path.isfile(file):
+        raise ValueError(f"File {file} doesn't exist.")
+
+    sudokus = []
+    grid = []
+    with open(file, 'r') as f:
+        line = f.readline()
+        while line:
+            grid.append([int(c) for c in line if c.isnumeric()])
+            line = f.readline()
+            if len(line.split()) == 0:
+                sudokus.append(Board(grid))
+                grid = []
+                line = f.readline()
+
+    return sudokus
+
 if __name__ == '__main__':
     b = Board([
         [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -315,7 +355,7 @@ if __name__ == '__main__':
         [2, 3, 4, 5, 6, 7, 8, 9, 1],
         [8, 9, 1, 2, 3, 4, 5, 6, 7],
     ])
-    d = Board()
+    # d = Board()
     # c.print_board()
     # print(c.generate().is_valid())
     # print(c.size)
@@ -324,7 +364,7 @@ if __name__ == '__main__':
     # print(c.cell_possible_values(1, 0))
     # print(c.empty_board().array)
     # print(c.cell_possible_values(0, 0))
-    d.generate(non_empty_cells=81)
+    # d.generate(non_empty_cells=81)
     # d.print_solution()
     # d.print_board()
     # d.swap_rows(1, 2).print_board()
@@ -334,11 +374,16 @@ if __name__ == '__main__':
     # d.rotate()
     # d.vertical_mirroring()
     # d.horizontal_mirroring()
-    d.empty_random_pairs(pairs=30)
-    d.print_board()
-    # next = d.find_next_empty_cell()
-    # print(f'{next}: {d.cell_possible_values(*next)}')
-    d.solve()
-    d.print_board()
-    print(d.is_valid())
-    # print(d.is_original_solution())
+    # d.empty_random_pairs(pairs=30)
+    # d.print_board()
+    # # next = d.find_next_empty_cell()
+    # # print(f'{next}: {d.cell_possible_values(*next)}')
+    # c.solve()
+    # c.print_board()
+    # print(d.is_valid())
+    # # print(d.is_original_solution())
+
+    # Read a sudoku from a txt file and solve it
+    s = read_sudokus('.\\games\\sudokus-medium.txt')[1]
+    s.solve()
+    s.print_board()
