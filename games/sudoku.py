@@ -72,6 +72,15 @@ class Board:
         self.array = deepcopy(array)
         self.solution = []
         
+    def count_empty_cells(self):
+        r = range(self.size)
+        suma = 0
+        for i in r:
+            for j in r:
+                if self.array[i][j] == 0:
+                    suma += 1
+        return suma
+
     def get_row(self, index: int):
         return self.array[index]
 
@@ -282,7 +291,6 @@ class Board:
             # If it didn't reach a solution, undo
             self.array[row][col] = 0
 
-
         return False
 
     def print_board(self):
@@ -290,6 +298,9 @@ class Board:
 
     def print_solution(self):
         print_matrix(self.solution)
+
+    def to_string(self):
+        return '\n'.join([''.join(str(i) for i in self.get_row(i)) for i in range(self.size)])
 
 
 def read_sudokus(file: str):
@@ -331,6 +342,69 @@ def read_sudokus(file: str):
                 line = f.readline()
 
     return sudokus
+
+def write_sudokus_solution(boards: list, filename: str = None):
+    """
+    Given the list of `boards`, prints each board's solution
+    and saves them all to a file.
+
+    Parameters
+    ----------
+    boards: list
+        list of Board instances
+    """
+    s = ""
+    for board in boards:
+        if not isinstance(board, Board):
+            raise ValueError("The list `boards` must be filled with Board object instances ")
+        board.solve()
+        s += '\n'.join([
+            ''.join(str(i) for i in board.get_row(i)) 
+            for i in range(board.size)])
+        s += '\n\n'
+    
+    if filename:
+        return print(s[:-2], file=open(filename, 'w'))
+    print(s[:-2])
+    
+def write_sudoku_with_solution(board: Board, filename: str = None):
+    """
+    Given an unsolved `board`, outputs both the unsolved 
+    and the solved sudoku to the `filename`.
+    """
+    s = board.to_string()
+    board.solve()
+    s += '\n\n' + board.to_string()
+    
+    if filename:
+        return print(s, file=open(filename, 'w'))
+    print(s)
+
+def read_sudokus_write_solutions(files: list):
+    """
+    Given the list of `files`, for each file 
+    reads the unsolved sudokus and outputs their solution
+    to the same filelaname ending with `-solution.txt`
+    """
+    for file in files:
+        s = read_sudokus(file)
+        write_sudokus_solution(s, file[:-4] + '-solution.txt')
+
+def read_sudokus_write_one_sudoku_per_file(files: list):
+    """
+    Given the list of `files`, for each file 
+    reads the unsolved sudokus and for each sudoku
+    outputs both the unsolved and the solved board,
+    one sudoku per file.
+    """
+    for file in files:
+        boards = read_sudokus(file)
+        for i, board in enumerate(boards):
+            write_sudoku_with_solution(
+                board=board,
+                filename=file[:-4] + f'-{i}.txt'
+            )
+
 
 if __name__ == '__main__':
     b = Board([
@@ -384,6 +458,26 @@ if __name__ == '__main__':
     # # print(d.is_original_solution())
 
     # Read a sudoku from a txt file and solve it
-    s = read_sudokus('.\\games\\sudokus-medium.txt')[1]
-    s.solve()
-    s.print_board()
+    # s = read_sudokus('.\\games\\sudokus\\sudokus-medium.txt')[1]
+    # s.solve()
+    # s.print_board()
+
+    # Read sudokus from a txt file and write the solution
+    # read_sudokus_write_solutions([
+    #     '.\\games\\sudokus\\sudokus-easy.txt',
+    #     '.\\games\\sudokus\\sudokus-medium.txt',
+    #     '.\\games\\sudokus\\sudokus-hard.txt'
+    # ])
+
+    # Read a sudoku and output an in a file 
+    # both the unsolved and solved boards
+    # s = read_sudokus('.\\games\\sudokus\\sudokus-medium.txt')[0]
+    # write_sudoku_with_solution(s)
+
+    # Read all the sudokus in each of the files,
+    # and output one file per unsolved-solved board
+    # read_sudokus_write_one_sudoku_per_file([
+    #   '.\\games\\sudokus\\sudokus-easy.txt',
+    #   '.\\games\\sudokus\\sudokus-medium.txt',
+    #   '.\\games\\sudokus\\sudokus-hard.txt',
+    # ])
