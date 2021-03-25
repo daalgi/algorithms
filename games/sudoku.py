@@ -1,6 +1,7 @@
 from random import shuffle, randint, choice
 from copy import deepcopy
-import os
+import os, json
+from collections import defaultdict
 
 
 def random_int_within_block(i: int):
@@ -301,6 +302,9 @@ class Board:
 
     def to_string(self):
         return '\n'.join([''.join(str(i) for i in self.get_row(i)) for i in range(self.size)])
+    
+    def to_flat_list(self):
+        return [i for row in self.array for i in row]
 
 
 def read_sudokus(file: str):
@@ -405,6 +409,31 @@ def read_sudokus_write_one_sudoku_per_file(files: list):
                 filename=file[:-4] + f'-{i}.txt'
             )
 
+def read_sudokus_write_json(files: dict, output: str):
+    """
+    Given the list of `files`, for each file 
+    reads the unsolved sudokus and for each sudoku
+    outputs both the unsolved and the solved board,
+    one sudoku per file.
+
+    Parameters
+    ----------
+    files: dict
+        { "easy": ".\\games\\sudokus\\sudokus-easy.txt", "medium": "..." }
+    """
+    res = defaultdict(list)
+    for key, filename in files.items():
+        # print(key, filename)
+        boards = read_sudokus(filename)
+        for board in boards:
+            obj = { "board": board.to_flat_list() }
+            board.solve()
+            obj["solution"] = board.to_flat_list()
+            res[key].append(obj)
+
+    with open(output, 'w') as f:
+        json.dump(res, f)
+
 
 if __name__ == '__main__':
     b = Board([
@@ -456,11 +485,14 @@ if __name__ == '__main__':
     # c.print_board()
     # print(d.is_valid())
     # # print(d.is_original_solution())
+    # print(c.to_flat_list())
 
-    # Read a sudoku from a txt file and solve it
-    # s = read_sudokus('.\\games\\sudokus\\sudokus-medium.txt')[1]
+    # Read a sudokus from a txt file
+    # s = read_sudokus('.\\games\\sudokus\\sudokus-hard.txt')
     # s.solve()
     # s.print_board()
+    # for b in s:
+    #     print(81 - b.count_empty_cells())
 
     # Read sudokus from a txt file and write the solution
     # read_sudokus_write_solutions([
@@ -481,3 +513,11 @@ if __name__ == '__main__':
     #   '.\\games\\sudokus\\sudokus-medium.txt',
     #   '.\\games\\sudokus\\sudokus-hard.txt',
     # ])
+
+    read_sudokus_write_json(
+        files={
+            "easy": '.\\games\\sudokus\\sudokus-easy.txt',
+            "medium": '.\\games\\sudokus\\sudokus-medium.txt',
+            "hard": '.\\games\\sudokus\\sudokus-hard.txt',
+        }, 
+        output='.\\games\\sudokus\\sudokus.json')
