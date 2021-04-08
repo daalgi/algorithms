@@ -489,10 +489,11 @@ if __name__ == '__main__':
 
     # Read a sudokus from a txt file
     # s = read_sudokus('.\\games\\sudokus\\sudokus-hard.txt')
-    # s.solve()
-    # s.print_board()
-    # for b in s:
-    #     print(81 - b.count_empty_cells())
+    s = read_sudokus('.\\games\\sudokus\\sudokus-expert.txt')
+    for b in s:
+        print(f'Non-empty cells: {81 - b.count_empty_cells()}')
+        # b.solve()
+        # b.print_board()        
 
     # Read sudokus from a txt file and write the solution
     # read_sudokus_write_solutions([
@@ -512,12 +513,14 @@ if __name__ == '__main__':
     #   '.\\games\\sudokus\\sudokus-easy.txt',
     #   '.\\games\\sudokus\\sudokus-medium.txt',
     #   '.\\games\\sudokus\\sudokus-hard.txt',
+        # '.\\games\\sudokus\\sudokus-expert.txt',
     # ])
 
-    read_sudokus_write_json(
-        files={
-            "easy": '.\\games\\sudokus\\sudokus-easy.txt',
-            "medium": '.\\games\\sudokus\\sudokus-medium.txt',
-            "hard": '.\\games\\sudokus\\sudokus-hard.txt',
-        }, 
-        output='.\\games\\sudokus\\sudokus.json')
+    # read_sudokus_write_json(
+    #     files={
+    #         "easy": '.\\games\\sudokus\\sudokus-easy.txt',
+    #         "medium": '.\\games\\sudokus\\sudokus-medium.txt',
+    #         "hard": '.\\games\\sudokus\\sudokus-hard.txt',
+    #         "expert": '.\\games\\sudokus\\sudokus-expert.txt',
+    #     }, 
+    #     output='.\\games\\sudokus\\sudokus.json')
