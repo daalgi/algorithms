@@ -10,15 +10,15 @@ and i < j < k.
 def brute_force(arr, r):
     # Method 1: brute force
 
-    # arr should not be sorted, since the definition of triplet
+    # arr should be sorted, since the definition of triplet
     # states that i < j < k (i.e. [4, 2, 1] isn't a triplet)
 
     count = 0
     n = len(arr)
-    for i in range(n):
+    for i in range(n-2):
         if arr[i] == 1 or arr[i] % r == 0:
             #print(arr[i])
-            for j in range(i+1, n):
+            for j in range(i+1, n-1):
                 if arr[j] % r != 0 or arr[j] / arr[i] != r:
                     continue
                 for k in range(j+1, n):
@@ -28,7 +28,7 @@ def brute_force(arr, r):
     return count
     
     
-def hashtable(arr, r):
+def hashtable(arr, r, verbose: bool = False):
     # Store the count of doubles in a hashtable
     doubles = defaultdict(int)
     # Store the count of integers in a hashtable
@@ -53,6 +53,13 @@ def hashtable(arr, r):
         # If x is the 3rd element of the triplet,
         # add it to the integers count
         integers[x] += 1
+
+        if verbose:
+            print(f'x: {x}, rx: {rx}, rrx: {rrx}')
+            print('Triplets:', triplets)
+            print('Doubles:', doubles)
+            print('Integers:', integers)
+            print()
 
     return triplets
 
@@ -85,5 +92,10 @@ if __name__ == "__main__":
         string += f'\tTest: {"OK" if res == solution else "NOT OK"}'
         print(string, '\n')
 
-    print()
-    
+    print('\n>> Verbose example:')
+    case = 0
+    array = test_cases[case][0]
+    num = test_cases[case][1]
+    print('Array:', array)
+    print('Number:', num, '\n')
+    hashtable(array, num, verbose=True)
