@@ -34,3 +34,22 @@ class FenwickTree:
     
     def __str__(self) -> str:
         return str(self.bit)
+
+
+def linkedlist_to_list(l: ListNode):
+    arr = []
+    while l:
+        if l.val is not None:
+            arr.append(l.val)
+        l = l.next
+    return arr
+
+def list_to_linkedlist(l: list):
+    if len(l) == 0:
+        return None
+    first = ListNode(l[0])
+    curr = first
+    for v in l[1:]:
+        curr.next = ListNode(v)
+        curr = curr.next
+    return first
