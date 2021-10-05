@@ -67,6 +67,37 @@ def efficient(nums: list) -> bool:
         res = max(res, cur_max)
 
     return res
+
+def efficient2(nums: list) -> bool:
+    # O(n)
+
+    # Keep track of the maximum
+    res = nums[0]
+
+    # Loop over the array: O(n)
+    cur_max, cur_min = 1, 1
+    for num in nums:
+        
+        # Edge case
+        if num == 0:
+            # Re-initialize `cur_max` and `cur_min`,
+            # as if computing a different subarray
+            cur_max, cur_min = 1, 1
+            res = max(res, num)
+            continue
+
+        # Multiply previous prods by the current number
+        temp_max = cur_max * num
+        temp_min = cur_min * num
+        
+        # Re-evaluate the current max and min
+        cur_max = max(temp_max, temp_min, num)
+        cur_min = min(temp_max, temp_min, num)
+        
+        # Global maximum
+        res = max(res, cur_max)
+
+    return res
     
     
 if __name__ == "__main__":
@@ -97,6 +128,13 @@ if __name__ == "__main__":
 
         result = efficient(arr)        
         string = f'  efficient{arr} = '
+        string += ' ' * (35 - len(string))
+        string += str(result)
+        string += ' ' * (70 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+
+        result = efficient2(arr)        
+        string = f' efficient2{arr} = '
         string += ' ' * (35 - len(string))
         string += str(result)
         string += ' ' * (70 - len(string))
