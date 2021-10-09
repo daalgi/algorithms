@@ -48,12 +48,10 @@ def brute_force(string: str) -> bool:
 
 if __name__ == "__main__":
     print('-' * 60)
-    print('Loop detection in linked list')
+    print('Is string formed by unique characters?')
     print('-' * 60)
 
     test_cases = [
-        #(vals, loop_index, result)
-        # `loop_index = -1` means that there's no loop
         ("abcd", True),
         ("abcda", False),
         ("qwerasdfzxcvpoiuñlkj-.,m", True),
