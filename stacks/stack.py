@@ -33,6 +33,10 @@ class Stack:
 
 
 if __name__ == "__main__":
+    print("-" * 60)
+    print("SIMPLE STACK IMPLEMENTATION")
+    print("-" * 60)
+
     stack = Stack()
     print("\nPushing data into the Stack...")
     for i in range(5, 10):

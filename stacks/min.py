@@ -64,6 +64,10 @@ class StackMin:
 
 
 if __name__ == "__main__":
+    print("-" * 60)
+    print("STACK MIN")
+    print("-" * 60)
+
     stack = StackMin()
 
     print("\nPushing values into the stack...")

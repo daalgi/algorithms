@@ -57,6 +57,10 @@ class FixedMultiStacks:
 
 
 if __name__ == "__main__":
+    print("-" * 60)
+    print("FIXED MULTI-STACKS")
+    print("-" * 60)
+
     stack = FixedMultiStacks(num_stacks=3, stack_size=3)
     print("\nPushing data into the three stacks...")
     stack.push(stack_id=0, data=5)

@@ -76,6 +76,10 @@ class SetOfStacks:
 
 
 if __name__ == "__main__":
+    print("-" * 60)
+    print("SET OF STACKS")
+    print("-" * 60)
+
     stack = SetOfStacks(capacity=2)
     print("\nPushing data into the SetOfStacks...")
     for i in range(5, 10):

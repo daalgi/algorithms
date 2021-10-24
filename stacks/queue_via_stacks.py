@@ -76,6 +76,10 @@ class MyQueue:
 
 
 if __name__ == "__main__":
+    print("-" * 60)
+    print("QUEUE VIA TWO STACKS")
+    print("-" * 60)
+
     stack = MyQueue()
     print("\nPushing data into MyQueue...")
     for i in range(5, 10):
