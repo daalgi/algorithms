@@ -88,7 +88,7 @@ def iterative(p: TreeNode, q: TreeNode):
 
 if __name__ == "__main__":
     print("-" * 60)
-    print("Binary Tree inorder traversal")
+    print("Are both Binary Trees the same?")
     print("-" * 60)
 
     test_cases = [
