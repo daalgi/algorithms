@@ -176,7 +176,7 @@ if __name__ == "__main__":
         ([1, 2, 3, 4, 5, 6, 7, 8], True),
         ([3, 9, 20, None, None, 15, 7], True),
         ([1, 2, 2, 3, 3, None, None, 4, 4], False),
-        ([1, 2, 3, 4, 5, 6, None, 8], False),  # True in for `balanced` definitions
+        ([1, 2, 3, 4, 5, 6, None, 8], False),  # True for not-strict balanced definition
     ]
 
     for nums, solution in test_cases:
