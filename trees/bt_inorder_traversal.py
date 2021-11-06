@@ -33,7 +33,7 @@ import sys
 
 sys.path.insert(1, "./")
 
-from tree_node import TreeNode
+from tree_node import TreeNode, list_traversal_to_bt
 
 
 def recursion(root: TreeNode, res: list = None):
@@ -65,7 +65,7 @@ def iterative(root: TreeNode, res: list = None):
             cur = cur.left
 
         cur = stack.pop()
-        res.append(cur.val)
+        res.append(cur.data)
         cur = cur.right
 
     return res
@@ -84,14 +84,12 @@ if __name__ == "__main__":
         ([1, None, 2], [1, 2]),
     ]
 
-    # TODO implement array to TreeNode like LeetCode's
+    for nums, solution in test_cases:
 
-    # for nums, solution in test_cases:
-
-    #     root = list_to_tree(nums)
-    #     result = recursion(root)
-    #     string = f" recursion({nums}) = "
-    #     string += " " * (35 - len(string))
-    #     string += str(result)
-    #     string += " " * (60 - len(string))
-    #     print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+        root = list_traversal_to_bt(nums)
+        result = recursion(root)
+        string = f" recursion({nums}) = "
+        string += " " * (35 - len(string))
+        string += str(result)
+        string += " " * (60 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')

@@ -27,7 +27,7 @@ import sys
 
 sys.path.insert(1, "./")
 
-from tree_node import TreeNode, printTree, binary_tree_to_list
+from tree_node import TreeNode, print_tree, binary_tree_to_list
 
 
 def recursive(nums: list) -> TreeNode:

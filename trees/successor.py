@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(1, "./")
 
-from tree_node import TreeNode, sorted_array_to_bst, find_in_bst, printTree
+from tree_node import TreeNode, sorted_array_to_bst, find_in_bst, print_tree
 
 
 def iterative(node: TreeNode) -> bool:

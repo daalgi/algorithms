@@ -13,7 +13,7 @@ import sys
 
 sys.path.insert(1, "./")
 
-from tree_node import TreeNode, sorted_array_to_bst, find_in_bst, printTree
+from tree_node import TreeNode, sorted_array_to_bst, find_in_bst, print_tree
 
 
 def brute_force(node1: TreeNode, node2: TreeNode) -> TreeNode:
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     case = 0
     arr = test_cases[case][0]
     root = sorted_array_to_bst(arr)
-    printTree(root)
+    print_tree(root)
 
     for nums, num1, num2, solution in test_cases[:3]:
 
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     case = -1
     arr = test_cases[case][0]
     root = sorted_array_to_bst(arr)
-    printTree(root)
+    print_tree(root)
 
     for nums, num1, num2, solution in test_cases[3:]:
 

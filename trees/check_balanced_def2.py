@@ -13,7 +13,7 @@ import sys
 
 sys.path.insert(1, "./")
 
-from tree_node import TreeNode, create_binary_tree_from_list, printTree
+from tree_node import TreeNode, list_traversal_to_bt, print_tree
 
 
 def recursion(root: TreeNode) -> bool:
@@ -181,7 +181,7 @@ if __name__ == "__main__":
 
     for nums, solution in test_cases:
 
-        root = create_binary_tree_from_list(nums)
+        root = list_traversal_to_bt(nums)
 
         result = recursion(root)
         string = f"recursion({nums}) = "
@@ -208,6 +208,6 @@ if __name__ == "__main__":
 
     # case = -1
     # arr = test_cases[case][0]
-    # root = create_binary_tree_from_list(arr)
-    # printTree(root)
+    # root = list_traversal_to_bt(arr)
+    # print_tree(root)
     # print(recursion(root))

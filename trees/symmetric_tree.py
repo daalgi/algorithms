@@ -21,34 +21,33 @@ import sys
 
 sys.path.insert(1, "./")
 
-from tree_node import TreeNode
+from tree_node import TreeNode, list_traversal_to_bt
 
 
-def recursive(root: TreeNode):
+def recursion(root: TreeNode):
+    def f(left: TreeNode, right: TreeNode) -> bool:
+        # Recursive function
+
+        # Base cases
+        if not left and not right:
+            # Symmetric structure
+            return True
+        if not left or not right:
+            # Not symmetric structure
+            return False
+        if left.data != right.data:
+            # Not symmetric data
+            return False
+
+        # Recursive call
+        return f(left.left, right.right) and f(left.right, right.left)
+
     if not root:
         # If there's no tree, consider it symmetric
         return True
 
     # Recursive call to check children nodes
     return f(root.left, root.right)
-
-
-def f(left: TreeNode, right: TreeNode) -> bool:
-    # Recursive function
-
-    # Base cases
-    if not left and not right:
-        # Symmetric structure
-        return True
-    if not left or not right:
-        # Not symmetric structure
-        return False
-    if left.data != right.data:
-        # Not symmetric data
-        return False
-
-    # Recursive call
-    return f(left.left, right.right) and f(left.right, right.left)
 
 
 def iterative(root: TreeNode):
@@ -95,24 +94,29 @@ if __name__ == "__main__":
     print("-" * 60)
 
     test_cases = [
-        ([], [], True),
-        ([1], [1], True),
-        ([1, 2], [1, 2], True),
-        ([1, 2], [1, 3], False),
-        ([1, 2, None], [1, 2, 3], False),
-        ([1, 2, 3], [1, 2, 3], True),
-        ([1, 2, 1], [1, 1, 2], False),
-        ([1, 2], [1, None, 2], False),
+        ([], True),
+        ([1], True),
+        ([1, 2], False),
+        ([1, 2, 2], True),
+        ([1, 2, 3], False),
+        ([1, 2, 1], False),
     ]
 
-    # TODO implement array to TreeNode like LeetCode's
+    for nums, solution in test_cases:
 
-    # for nums, solution in test_cases:
+        root = list_traversal_to_bt(nums)
+        result = recursion(root)
+        string = f" recursion({nums}) = "
+        string += " " * (35 - len(string))
+        string += str(result)
+        string += " " * (60 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
 
-    #     root = list_to_tree(nums)
-    #     result = recursion(root)
-    #     string = f" recursion({nums}) = "
-    #     string += " " * (35 - len(string))
-    #     string += str(result)
-    #     string += " " * (60 - len(string))
-    #     print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+        result = iterative(root)
+        string = f"iterative({nums}) = "
+        string += " " * (35 - len(string))
+        string += str(result)
+        string += " " * (60 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+
+        print()

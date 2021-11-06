@@ -26,8 +26,9 @@ sys.path.insert(1, "./")
 from tree_node import (
     TreeNode,
     sorted_array_to_bst,
-    create_binary_tree_from_list,
-    printTree,
+    list_traversal_to_bt,
+    binary_tree_to_list,
+    print_tree,
 )
 
 
@@ -65,32 +66,26 @@ if __name__ == "__main__":
     print("-" * 60)
 
     test_cases = [
-        ([1, 2, 3, 4, 5, 6, 7, 8], [1], True),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [3], True),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [5], True),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [7, 8], True),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [6, 5, 7, 8], True),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [3, 4, 5], False),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [4, 6, 2], False),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [3, 2, 1], False),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [2, 3, 1], True),
-        ([1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3], True),
+        ([1, 2, 3], [1, 3, 2]),
+        ([1, 3, 2], [1, 2, 3]),
+        ([1, 2, 3, 4, 5], [1, 3, 2, 5, 4]),
+        ([1, 2, 3, 4, 5, 6, 7], [1, 3, 2, 7, 6, 5, 4]),
     ]
 
-    print("\n>>>>> Binary Tree:")
-    case = 0
-    arr = test_cases[case][0]
-    root = sorted_array_to_bst(arr)
-    printTree(root)
+    for nums, solution in test_cases:
 
-    for nums1, nums2, solution in test_cases:
+        print("." * 36)
+        root = list_traversal_to_bt(nums)
+        print_tree(root)
+        print()
 
-        # TODO implement pre-order traversal for creation of tree from list
-        root1 = create_binary_tree_from_list(nums1)
-        root2 = create_binary_tree_from_list(nums2)
-        result = recursion(root1, root2)
+        res = recursion(root)
+        print_tree(res)
+        print()
 
-        string = f"recursion({nums2}) = "
+        result = binary_tree_to_list(res)
+
+        string = f"recursion({nums}) = "
         string += " " * (35 - len(string))
         string += str(result)
         string += " " * (60 - len(string))

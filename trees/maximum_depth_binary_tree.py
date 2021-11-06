@@ -32,7 +32,7 @@ import sys
 
 sys.path.insert(1, "./")
 
-from tree_node import TreeNode, create_binary_tree_from_list
+from tree_node import TreeNode, list_traversal_to_bt
 
 
 def recursion(node: TreeNode) -> int:
@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
     for nums, solution in test_cases:
 
-        root = create_binary_tree_from_list(nums)
+        root = list_traversal_to_bt(nums)
         result = recursion(root)
         string = f"     recursion({nums}) = "
         string += " " * (35 - len(string))
