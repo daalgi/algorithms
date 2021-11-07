@@ -131,6 +131,7 @@ if __name__ == "__main__":
     test_cases = [
         ([], True),
         ([1], True),
+        ([0, None, -1], False),
         ([1, 1], False),
         ([0, None, -1], False),
         ([1, 2], False),
@@ -143,9 +144,9 @@ if __name__ == "__main__":
         ([4, 2, 6, 1, 3, 5, 7], True),
         ([4, 1, 6, 2, 3, 5, 7], False),
         ([4, 2, 6, 1, 3, 7, 5], False),
-        ([1, None, 2, None, None, 3, 4], False),
-        ([1, None, 3, None, None, 2, 4], True),
+        ([1, None, 2, 3, 4], False),
         ([5, 1, 4, None, None, 3, 6], False),
+        ([5, 4, 6, None, None, 3, 7], False),
     ]
 
     for nums, solution in test_cases:
@@ -184,8 +185,8 @@ if __name__ == "__main__":
 
         print()
 
-    # case = -1
+    # case = -2
     # arr = test_cases[case][0]
-    # root = create_binary_tree_from_list(arr)
-    # printTree(root)
+    # root = list_traversal_to_bt(arr)
+    # print_tree(root)
     # print('Validate BST:', recursion(root))
