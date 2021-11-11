@@ -31,16 +31,19 @@ n == matrix[i].length
 
 def recursion_dfs(matrix: list) -> int:
     # Time complexity: O(m * n)
+    # Worst case: O(m * n + m * n)
     # Space complexity: O(m * n)
 
-    # size of the matrix
+    # Size of the matrix
     rows, cols = len(matrix), len(matrix[0])
 
     # Tuple of possible movement directions
     directions = ((0, 1), (0, -1), (1, 0), (-1, 0))
 
     # Memo array to store the maximum increasing path length
-    # starting at each cell
+    # starting at each cell.
+    # Without memoization -> brute force approach
+    # With memoization -> optimal
     memo = [[0 for j in range(cols)] for i in range(rows)]
 
     def dfs(r: int, c: int) -> int:
@@ -69,6 +72,7 @@ def recursion_dfs(matrix: list) -> int:
                     # of the current path is the maximum of
                     # the current length and the length for the
                     # path after successive movements
+                    # Note: +1 to account for the current position
                     res = max(res, dfs(nr, nc) + 1)
 
         # Update the current cell's maximum length
