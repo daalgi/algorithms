@@ -1,5 +1,6 @@
 """
 https://leetcode.com/problems/alien-dictionary/
+(premium)
 
 There is a new alien language that uses the English alphabet. However,
 the order among the letters is unkown to you.
@@ -26,14 +27,140 @@ Output: "wertf"
 from collections import deque
 
 
-def recursion_dfs(words: list) -> str:
+def dfs_pre_order(
+    c: str, visited: dict, adj: dict, res: list = None, verbose: bool = False
+):
+    # DFS recursive function
+    # Pre-order dfs: append result before the recursive call
+
+    if c in visited:
+        # If the current character is in visited, return
+        # the value its value in the dictionary
+        # - if False, the node has been visited, but it's
+        #   not in the current path, no problem.
+        # - if True, the node is in the current path, we saw
+        #   it twice, so there's a cycle.
+        return visited[c]
+
+    # Set the current character in the current paht
+    visited[c] = True
+    # DFS pre-order: append the result before the recursive call
+    res.append(c)
+    if verbose:
+        print("Character", c)
+        print("\t>>Neighbors:", adj[c])
+        print("--> Append", c, "\tCurrent res", res)
+
+    # Loop over the neighbors of the current character
+    for neighbor in adj[c]:
+
+        if dfs_pre_order(neighbor, visited, adj, res, verbose):
+            # If the character is in the current path,
+            # there's a cycle
+            return True
+
+    # Set the current character out of the current path,
+    # so it'll be marked only as visited
+    visited[c] = False
+
+
+def dfs_post_order(
+    c: str, visited: dict, adj: dict, res: list = None, verbose: bool = False
+):
+    # DFS recursive function
+    # Post-order dfs: once the recursive call has finished,
+    # we finally append the result
+
+    if c in visited:
+        # If the current character is in visited, return
+        # the value its value in the dictionary
+        # - if False, the node has been visited, but it's
+        #   not in the current path, no problem.
+        # - if True, the node is in the current path, we saw
+        #   it twice, so there's a cycle.
+        return visited[c]
+
+    # Set the current character in the current paht
+    visited[c] = True
+
+    if verbose:
+        print("Character", c)
+        print("\t>>Neighbors:", adj[c])
+
+    # Loop over the neighbors of the current character
+    for neighbor in adj[c]:
+
+        if dfs_post_order(neighbor, visited, adj, res, verbose):
+            # If the character is in the current path,
+            # there's a cycle
+            return True
+
+    # Set the current character out of the current path,
+    # so it'll be marked only as visited
+    visited[c] = False
+
+    # Post-order dfs: once the recursive call has finished,
+    # we finally append the result
+    res.append(c)
+    if verbose:
+        print("--> Append", c, "\tCurrent res", res)
+
+
+def recursion_dfs(words: list, pre: bool = True, verbose: bool = False) -> str:
     # Topological sort
-    pass
+    # Post-order DFS
+
+    # Create adjacency list
+    adj = {c: set() for word in words for c in word}
+
+    # Compare two words at a time, letter by letter, to
+    # populate the adjacency list (graph) with
+    # lexicographic order relationships
+    for i in range(1, len(words)):
+        first = words[i - 1]
+        second = words[i]
+        min_len = min(len(first), len(second))
+        for j in range(min_len):
+
+            # If the letters are equal, continue with next iteration
+            if first[j] == second[j]:
+                continue
+
+            # If the two characters are not equal, establish
+            # the relationship between the first and the second
+            adj[first[j]].add(second[j])
+
+            # Once a first non-equal character has been detected,
+            # break the foor loop
+            break
+
+    # Visited dictionary to keep track of visited nodes
+    visited = {}  # False=visited, True=current path
+    # Result list storing the characters in reverse order
+    # (post-order dfs)
+    res = []
+
+    # Loop over the characters in the adjacency list
+    for c in adj:
+        if pre and dfs_pre_order(c, visited, adj, res, verbose):
+            # If True, the character is in the current path,
+            # so there's a cycle
+            return ""
+        elif not pre and dfs_post_order(c, visited, adj, res, verbose):
+            # If True, the character is in the current path,
+            # so there's a cycle
+            return ""
+
+    if pre:
+        # Pre-order dfs
+        return "".join(res)
+    # Reverse list for post-order dfs
+    return "".join(res[::-1])
 
 
 def iter_bfs(words: list) -> str:
     # Topological sort
-    # Time complexity: O(c) 
+    # Time complexity: O(c)
     #   where c is the total number of characters
     # Space complexity: O(1)
     #   since the size of the alphabet is constant (and small)
@@ -110,26 +237,55 @@ if __name__ == "__main__":
 
     test_cases = [
         # (words, solution)
-        (["wrt", "wrf", "er", "ett", "rftt"], "wertf"),
-        (["z", "x"], "zx"),
-        (["z", "x"], "zx"),
+        # No solution
         (["z", "x", "z"], ""),
+        (["agr", "cx", "am", "bz"], ""),
+        # Unique solutions
+        (["z", "x"], "zx"),
+        (["z", "x"], "zx"),
+        (["aaa", "aab", "aac"], "abc"),
+        # Multiple solutions:
+        (["wrt", "wrf", "er", "ett", "rftt"], "wertf"),
+        (["aab", "acb", "bb"], "acb"),
+        (["aab", "aba", "cc"], "abc"),
+        (["aab", "ab", "bm"], "abm"),
+        (["wm", "wb", "m", "a"], "wmab"),
     ]
 
     for i, (words, solution) in enumerate(test_cases):
 
-        # result = recursion_dfs(words)
-        # string = f"recursion({i}) = "
-        # string += " " * (15 - len(string))
-        # string += str(result)
-        # string += " " * (60 - len(string))
-        # print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
-
-        result = iter_bfs(words)
-        string = f"iter({i}) = "
+        result = recursion_dfs(words, pre=True)
+        string = f" rec_dfs_pre({i}) = "
         string += " " * (15 - len(string))
         string += str(result)
         string += " " * (60 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
 
+        result = recursion_dfs(words, pre=False)
+        string = f"rec_dfs_post({i}) = "
+        string += " " * (15 - len(string))
+        string += str(result)
+        string += " " * (60 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+
+        result = iter_bfs(words)
+        string = f"    iter_bfs({i}) = "
+        string += " " * (15 - len(string))
+        string += str(result)
+        string += " " * (60 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+
+        if i > len(test_cases) - 5:
+            print("  ** Multiple valid solutions")
+
         print()
+
+    print("\nVerbose example:")
+    case = -3
+    words = test_cases[case][0]
+    print("Words:", words)
+    print("\n>> DFS pre-order:\n")
+    print("Result:", recursion_dfs(words, pre=True, verbose=True))
+    print("\n\n>> DFS post-order:\n")
+    print("Result:", recursion_dfs(words, pre=False, verbose=True))
+    print()
