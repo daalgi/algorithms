@@ -19,7 +19,7 @@ from collections import deque
 
 
 def recursion(num_projects: int, dependencies: list) -> list:
-    # DFS - Topsort
+    # DFS post-order - Topsort
     # Time complexity: O(V + E)
 
     # Edge case
@@ -36,7 +36,8 @@ def recursion(num_projects: int, dependencies: list) -> list:
     built = set()
 
     # Resulting list with the build order.
-    # Pre-populate it with the dependencies with no dependencies
+    # Pre-populate it with the projects that are no
+    # other project's dependecy
     res = [i for i in range(num_projects) if adj[i] == []]
 
     def dfs(dependency: int):
@@ -75,7 +76,7 @@ def recursion(num_projects: int, dependencies: list) -> list:
         return True
 
     for project in range(num_projects):
-        if project != [] and not dfs(project):
+        if not dfs(project):
             return False
 
     # Return the inverted resulting list (added in post-order DFS)

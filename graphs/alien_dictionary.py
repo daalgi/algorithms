@@ -139,6 +139,11 @@ def recursion_dfs(words: list, pre: bool = True, verbose: bool = False) -> str:
     # Result list storing the characters in reverse order
     # (post-order dfs)
     res = []
+    if not pre:
+        # Post-order: pre-populate the resulting list
+        # with the characters not pointing to another
+        # character in the adjacency list
+        res = [c for c in adj if adj[c] == []]
 
     # Loop over the characters in the adjacency list
     for c in adj:
@@ -155,7 +160,7 @@ def recursion_dfs(words: list, pre: bool = True, verbose: bool = False) -> str:
         # Pre-order dfs
         return "".join(res)
     # Reverse list for post-order dfs
-    return "".join(res[::-1])
+    return "".join(res[::-1]) if len(res) == len(adj) else ""
 
 
 def iter_bfs(words: list) -> str:
