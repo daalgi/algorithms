@@ -80,7 +80,7 @@ if __name__ == "__main__":
     print(f">>> Verbose example:\nArray: {array}")
     bubble_sort2([*array], verbose=True)
 
-    size = 5000
+    size = 10000
     print(f"\n>>> Performance test - Random array size: {size}")
     arr = [randint(0, size) for _ in range(size)]
     t = time.time()
