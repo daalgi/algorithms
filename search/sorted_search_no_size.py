@@ -11,6 +11,7 @@ an element `x` occurs. If `x` occurs multiple times, you may return any index.
 """
 import time
 import random
+import cProfile
 
 
 def element_at(array: list, index: int) -> int:
@@ -52,7 +53,7 @@ def target_interval(array: list, target: int) -> tuple:
             # and `target` hasn't been found, it means that
             # no matter how small the steps are, it's not possible to
             # find it because it's not in the sorted array
-            return None, None
+            return None
 
         # If we've passed the boundary, undo the last iteration
         # to be checked again with more precission (smaller steps)
@@ -60,7 +61,6 @@ def target_interval(array: list, target: int) -> tuple:
             # Undo the last iteration
             curr = prev
             prev -= step // 4
-            # curr = prev + step
             value = element_at(array, curr)
 
     # Return interval as a tuple
@@ -86,15 +86,15 @@ def ssns(nums: list, target: int) -> int:
     # Space complexity: O(1)
 
     # Find the interval
-    left, right = target_interval(nums, target)
+    interval = target_interval(nums, target)
 
     # Edge case
-    if left is None:
+    if interval is None:
         # If the returned interval is None, `target` is not in `nums`
         return -1
 
     # Find the target with binary search
-    return binary_search(nums, target, left, right)
+    return binary_search(nums, target, *interval)
 
 
 def ssns2(nums: list, target: int) -> int:
@@ -168,9 +168,7 @@ if __name__ == "__main__":
 
     size = int(1e8)
     iterations = 1000
-    print(
-        f"\n>>> Performance test - Array size: {size} - Iterations: {iterations}"
-    )
+    print(f"\n>>> Performance test - Array size: {size} - Iterations: {iterations}")
     array = [i for i in range(size)]
 
     t = time.time()
@@ -186,3 +184,9 @@ if __name__ == "__main__":
         ssns(array, target)
     t = time.time() - t
     print(f"Method 1: {t*1e3:>8.0f} ms")
+
+    target = random.randint(0, size)
+    print("\n>>> Method 1")
+    cProfile.run("ssns(array,target)")
+    print(">>> Method 2")
+    cProfile.run("ssns2(array,target)")
