@@ -35,11 +35,9 @@ def update_bit(num: int, i: int, bit_is_1: int) -> int:
 
 def pos_int_to_binary(num: int) -> str:
     res = []
-    i = 0
     while num > 0:
-        res.append(num & (1 << 0))
+        res.append(num & 1)
         num >>= 1
-        i += 1
     if not res:
         return "0"
     return "".join(str(i) for i in res[::-1])
