@@ -38,7 +38,7 @@ Follow up: If this function is called many times, how would you optimize it?
 
 
 def brute_force(num: int) -> int:
-    # Check bit by bit, and if it's a `1`, 
+    # Check bit by bit, and if it's a `1`,
     # add it to the count
     count = 0
     while num > 0:
@@ -46,6 +46,7 @@ def brute_force(num: int) -> int:
             count += 1
         num >>= 1
     return count
+
 
 def optimal(num: int) -> int:
     # Remove the rightmost set bit
@@ -57,6 +58,7 @@ def optimal(num: int) -> int:
         num &= num - 1
         count += 1
     return count
+
 
 if __name__ == "__main__":
     print("-" * 60)
@@ -81,7 +83,7 @@ if __name__ == "__main__":
         string += str(result)
         string += " " * (60 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
-        
+
         string = f"    optimal({num}) = "
         string += " " * (35 - len(string))
         result = optimal(num)
