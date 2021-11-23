@@ -56,7 +56,11 @@ def brute_force(num: int) -> int:
             if combined_max < current_combined_max:
                 combined_max = current_combined_max
 
-    return max(single_max + 1, combined_max)
+    if len(count) > 1:
+        # If there are multiple sequences
+        return max(single_max + 1, combined_max)
+    # If there's only one sequence
+    return single_max
 
 
 def optimal(num: int) -> int:
@@ -76,7 +80,7 @@ if __name__ == "__main__":
 
     test_cases = [
         (1775, 8),  # 11011101111
-        (3, 3),  # 101
+        (3, 2),  # 11
         (22, 4),  # 10110
         (8, 4),  # 1000
     ]

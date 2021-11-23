@@ -12,6 +12,19 @@ def optimal(num: int) -> int:
     # Space complexity: O(1)
     #   where b is the length of the sequence
 
+    if num == 0:
+        # 
+        return 1
+
+    elif (num + 1) & num == 0:
+        # If all bits are 1s, 
+        # count the number of bits
+        count = 0
+        while num:
+            count += 1
+            num >>= 1
+        return count
+
     # Keep track of the lenghts
     current_length = 0
     previous_length = 0
@@ -50,9 +63,9 @@ if __name__ == "__main__":
 
     test_cases = [
         (1775, 8),  # 11011101111
-        (3, 3),  # 101
-        (22, 4),  # 10110
-        (8, 2),  # 1000
+        (3, 2),     # 11
+        (22, 4),    # 10110
+        (8, 2),     # 1000
     ]
 
     for num, solution in test_cases:
