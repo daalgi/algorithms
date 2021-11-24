@@ -31,7 +31,7 @@ The input must be a binary string of length 32
 """
 
 
-def reverse(num: list) -> int:
+def reverse(num: int) -> int:
     # Time complexity is O(32)
     # Space complexity is O(1)
     res = 0
