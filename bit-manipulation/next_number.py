@@ -28,7 +28,14 @@ def brute_force(num: int) -> int:
     return res[0]
 
 
-def next_numbers(num: int) -> int:
+def next_number(num: int) -> int:
+    # Strategy: flip the rightmost non-trailing zero at p.
+    # Then, clear all the bits to the right of p.
+    # Finally, count the number of ones (n) up to p, and
+    # set n 1s starting from the rightmost bit.
+    # The result will be the next greater number
+    # with the same number of 1s.
+
     # Temporary variable to perform shifts on the original
     # value of `num`
     temp = num
@@ -50,7 +57,7 @@ def next_numbers(num: int) -> int:
         temp >>= 1
 
     # Position where a 0-bit will be flipped into a 1-bit,
-    # that is the rightmost non-trailing zero
+    # that is, the rightmost non-trailing zero
     p = zeroes + ones
 
     # print(p, ones, zeroes)
@@ -90,6 +97,10 @@ def next_numbers(num: int) -> int:
     return num
 
 
+def prev_number(num: int) -> int:
+    pass
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Next number")
@@ -110,16 +121,16 @@ if __name__ == "__main__":
 
     for num, solution in test_cases:
 
-        string = f" brute_force({num}) = "
+        string = f"brute_force({num}) = "
         string += " " * (25 - len(string))
         result = brute_force(num)
         string += str(result)
         string += " " * (60 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
 
-        string = f"next_numbers({num}) = "
+        string = f"next_number({num}) = "
         string += " " * (25 - len(string))
-        result = next_numbers(num)
+        result = next_number(num)
         string += str(result)
         string += " " * (60 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
