@@ -125,8 +125,9 @@ def bit_manip2(dividend: int, divisor: int) -> int:
 
 
 def bit_manip3(dividend: int, divisor: int) -> int:
+    #https://leetcode.com/problems/divide-two-integers/discuss/142849/C%2B%2BJavaPython-Should-Not-Use-%22long%22-Int
     # Time complexity: O(32) = O(1)
-
+    
     # Edge case: overflow
     if dividend == -2147483648 and divisor == -1:
         return 2147483647
