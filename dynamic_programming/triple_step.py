@@ -73,6 +73,22 @@ def dp_iterative(steps: int) -> int:
     return memo[steps]
 
 
+def dp_iterative_custom_jumps(steps: int, jumps: list) -> int:
+    if steps == 0:
+        return 0
+
+    memo = [None] * (steps + 1)
+    memo[0] = 1
+    for i in range(1, steps + 1):
+        ways = 0
+        for jump in jumps:
+            if i - jump >= 0:
+                ways += memo[i - jump]
+        memo[i] = ways
+
+    return memo[steps]
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Triple step")
@@ -84,6 +100,7 @@ if __name__ == "__main__":
         (3, 4),
         (4, 7),
         (13, 1705),
+        (20, 121415),
         (25, 2555757),
     ]
 
@@ -111,3 +128,10 @@ if __name__ == "__main__":
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
 
         print()
+
+    print("\n>>> Custom jumps")
+    steps = 20
+    jumps = [1, 3]
+    print("steps:", steps)
+    print("jumps:", jumps)
+    print("Ways count:", dp_iterative_custom_jumps(steps, jumps))
