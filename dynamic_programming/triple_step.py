@@ -132,6 +132,11 @@ if __name__ == "__main__":
     print("\n>>> Custom jumps")
     steps = 20
     jumps = [1, 3]
-    print("steps:", steps)
+    print("\nsteps:", steps)
+    print("jumps:", jumps)
+    print("Ways count:", dp_iterative_custom_jumps(steps, jumps))
+    steps = 20
+    jumps = [3, 6]
+    print("\nsteps:", steps)
     print("jumps:", jumps)
     print("Ways count:", dp_iterative_custom_jumps(steps, jumps))
