@@ -38,6 +38,17 @@ def memoization_iterative(n: int) -> int:
     return memo[n - 1] + memo[n - 2]
 
 
+def iterative_memory_o1(n: int) -> int:
+    if n < 2:
+        return n
+
+    prev, curr = 0, 1
+    for _ in range(2, n + 1):
+        curr, prev = curr + prev, curr
+
+    return curr
+
+
 if __name__ == "__main__":
 
     print("-" * 60)
@@ -71,6 +82,13 @@ if __name__ == "__main__":
 
         result = memoization_iterative(n)
         string = f"memoization_iterative({n}) = "
+        string += " " * (35 - len(string))
+        string += str(result)
+        string += " " * (60 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+
+        result = iterative_memory_o1(n)
+        string = f"iterative_memory_O(1)({n}) = "
         string += " " * (35 - len(string))
         string += str(result)
         string += " " * (60 - len(string))
