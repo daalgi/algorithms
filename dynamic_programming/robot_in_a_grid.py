@@ -61,7 +61,7 @@ def dp_recursion(grid: list) -> list:
     if grid is None or len(grid) == 0:
         return None
 
-    memo = defaultdict(tuple)
+    memo = defaultdict(bool)
 
     def get_path(grid: list, row: int, col: int, path: list) -> list:
         # Recursive function
