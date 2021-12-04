@@ -2,6 +2,8 @@
 Fibonnaci numbers
 """
 import time
+from functools import lru_cache
+from typing import Generator
 
 
 def brute_force(n: int) -> int:
@@ -49,6 +51,32 @@ def iterative_memory_o1(n: int) -> int:
     return curr
 
 
+@lru_cache(maxsize=None)
+def python_cached(n: int) -> int:
+    """
+    Python has a built-it decorator for memoizing any
+    function automatically: @functools.lru_cache().
+    Each time the function with the decorator is called causes
+    the return value to be cached. Upon future calls with the
+    same argument, the previous return value for that argument
+    is retrieved from the cache and returned.
+    """
+    if n < 2:
+        return n
+    return python_cached(n - 1) + python_cached(n - 2)
+
+
+def generator(n: int) -> Generator[int, None, None]:
+    yield 0
+    if n > 0:
+        yield 1
+    last: int = 0
+    next: int = 1
+    for _ in range(1, n):
+        next, last = next + last, next
+        yield next
+
+
 if __name__ == "__main__":
 
     print("-" * 60)
@@ -94,9 +122,22 @@ if __name__ == "__main__":
         string += " " * (60 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
 
+        result = python_cached(n)
+        string = f"python_cached({n}) = "
+        string += " " * (35 - len(string))
+        string += str(result)
+        string += " " * (60 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+
         print()
 
-    print("\n>>> Performance tests:")
+    print("\n>>> Generating Fibonacci numbers with a generator:")
+    i = 0
+    for n in generator(40):
+        print(f"fib({i:>3}) = {n:>20}")
+        i += 1
+
+    print("\n\n>>> Performance tests:")
     for n in [37, 200, 9988]:
 
         if n < 40:
@@ -108,6 +149,11 @@ if __name__ == "__main__":
         if n < 250:
             t = time.time()
             print(f"\nMemoization - Recursion: f({n}) = {memoization_recursion(n)}")
+            t = time.time() - t
+            print(f"Computation time: {t*1e3:>8.0f} ms")
+
+            t = time.time()
+            print(f"\nMemoization - Python decorator: f({n}) = {python_cached(n)}")
             t = time.time() - t
             print(f"Computation time: {t*1e3:>8.0f} ms")
 
