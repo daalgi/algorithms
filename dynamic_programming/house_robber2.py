@@ -148,9 +148,9 @@ def dp_iter(nums: list) -> int:
             # For the current house, take the maximum considering:
             table[house - start] = max(
                 # - not robbing the current house, but the prev one
-                table[house - 1 - start], 
+                table[house - 1 - start],
                 # - robbing the current house and the prev to the prev one
-                nums[house] + table[house - 2 - start]
+                nums[house] + table[house - 2 - start],
             )
 
         # Return the value of the last index in the table, which
@@ -170,8 +170,33 @@ def dp_iter_opt(nums: list) -> int:
     # Dynamic programming with tabulation (iterative)
     # Time complexity: O(n)
     # Space complexity: O(1)
-    # TODO
-    pass
+    # Only need 2 previous calcs, so there's no need to
+    # store n elements.
+
+    def solve(nums: list, start: int, end: int) -> int:
+        # Solves iteratively for a given start and end points
+        
+        # Previous-to-previous and previous numbers
+        pprev, prev = nums[start], max(nums[start:start+1])
+        # Loop over the houses from the 2nd forward
+        for i in range(start + 2, end):
+            cur = max(prev, nums[i] + pprev)
+            pprev, prev = prev, cur
+
+        return cur
+
+    size = len(nums)
+    if size < 3:
+        # If the size is 1 or 2, can't rob any house,
+        # since the first and last are connected.
+        return 0
+    if size == 3:
+        # If 3 houses, only can rob 1
+        return max(nums)
+    # Return the maximum of two sub-problems:
+    # - the first but not the last
+    # - the last but not the first
+    return max(solve(nums, 0, size - 1), solve(nums, 1, size))
 
 
 if __name__ == "__main__":
@@ -212,6 +237,13 @@ if __name__ == "__main__":
 
         result = dp_iter(nums)
         string = f"      dp_iter = "
+        string += " " * (25 - len(string))
+        string += str(result)
+        string += " " * (60 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+
+        result = dp_iter_opt(nums)
+        string = f"  dp_iter_opt = "
         string += " " * (25 - len(string))
         string += str(result)
         string += " " * (60 - len(string))
