@@ -1,8 +1,31 @@
 """
 CRACKING THE CODING INTERVIEW
-8.7 Permutations without Dups (wihtout duplicates):
+8.7 Permutations without Dups (without duplicates):
 Write a method to compute all permutations of a string
 of unique characters.
+
+
+https://leetcode.com/problems/permutations/
+
+Given an array nums of distinct integers, return all the 
+possible permutations. You can return the answer in any order.
+
+Example 1:
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+Example 2:
+Input: nums = [0,1]
+Output: [[0,1],[1,0]]
+
+Example 3:
+Input: nums = [1]
+Output: [[1]]
+
+Constraints:
+1 <= nums.length <= 6
+-10 <= nums[i] <= 10
+All the integers of nums are unique.
 """
 from typing import List
 import itertools
@@ -66,11 +89,52 @@ def iterative(s: str) -> List[str]:
     return permutations
 
 
+def iterative_nums(nums: List[int]) -> List[List[int]]:
+    n = len(nums)
+    permutations = [[nums[0]]]
+    for i in range(1, n):
+        curr = []
+        curr_len = len(permutations[0])
+        for perm in permutations:
+            for j in range(curr_len + 1):
+                p = perm[:j] + [nums[i]] + perm[j:]
+                curr.append(p)
+        permutations = curr[:]
+    return permutations
+
+
+def backtrack_nums(nums: List[int]) -> List[List[int]]:
+    res = []
+
+    def backtrack(start: int, end: int) -> None:
+        # Recursive function
+
+        # Base case
+        if start == end:
+            # Make a deep copy of the resulting permutation
+            # (the permutation will be backtracked later)
+            res.append(nums[:])
+
+        # Loop over between the current pointers `start` and `end`
+        for i in range(start, end):
+            # New candidate solution:
+            # swap elements at `start` and `i`
+            nums[start], nums[i] = nums[i], nums[start]
+            # Given the candidate, explore further
+            backtrack(start + 1, end)
+            # Backtrack: swap back the elements
+            nums[start], nums[i] = nums[i], nums[start]
+
+    backtrack(0, len(nums))
+    return res
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Permutations without Dups")
     print("-" * 60)
 
+    # Problem with strings
     test_cases = [
         ("", [""]),
         ("a", ["a"]),
@@ -95,5 +159,45 @@ if __name__ == "__main__":
         solution = sorted(["".join(sol) for sol in solution])
 
         string = " " * 60
-        test_ok = sorted(list(solution)) == sorted(result)
+        test_ok = solution == sorted(result)
         print(string, f'\t\tTest: {"OK" if test_ok else "NOT OK"}')
+
+    # Problem with integers
+    test_cases = [
+        ([0], [[0]]),
+        ([1], [[1]]),
+        ([0, 1], [[0, 1], [1, 0]]),
+        ([1, 2, 3], itertools.permutations([1, 2, 3])),
+    ]
+
+    for nums, solution in test_cases:
+
+        solution = sorted([list(p) for p in solution])
+
+        print(f">>> iterative({nums})")
+        result = iterative_nums(nums)
+
+        result = sorted(result)
+        string = str(result)
+        if len(string) > 60:
+            string = string[:60] + "...]"
+        print(string)
+
+        string = " " * 60
+        test_ok = solution == result
+        print(string, f'\t\tTest: {"OK" if test_ok else "NOT OK"}')
+
+        print(f">>> backtrack({nums})")
+        result = backtrack_nums(nums)
+
+        result = sorted(result)
+        string = str(result)
+        if len(string) > 60:
+            string = string[:60] + "...]"
+        print(string)
+
+        string = " " * 60
+        test_ok = solution == result
+        print(string, f'\t\tTest: {"OK" if test_ok else "NOT OK"}')
+
+        print()
