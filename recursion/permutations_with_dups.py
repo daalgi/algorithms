@@ -38,7 +38,7 @@ def backtrack_list(nums: List[any]) -> List[List[any]]:
     for num in nums:
         counter[num] = counter.get(num, 0) + 1
 
-    def backtrack(comb: List[int], counter: dict):
+    def dfs(comb: List[int], counter: dict):
         # Recursive function
         # `comb` is a list representing the current combination
 
@@ -56,12 +56,12 @@ def backtrack_list(nums: List[any]) -> List[List[any]]:
                 comb.append(num)
                 counter[num] -= 1
                 # Continue the exploration
-                backtrack(comb, counter)
+                dfs(comb, counter)
                 # Revert the choice for the next exploration
                 comb.pop()
                 counter[num] += 1
 
-    backtrack([], counter)
+    dfs([], counter)
     return res
 
 
@@ -70,6 +70,11 @@ def backtrack_string(s: str) -> List[str]:
     string = list(s)
     res = backtrack_list(string)
     return ["".join(p) for p in res]
+
+
+def iterative_nums(nums: List[int]) -> List[List[int]]:
+    # TODO
+    pass
 
 
 if __name__ == "__main__":
@@ -113,6 +118,7 @@ if __name__ == "__main__":
         ([0], [[0]]),
         ([0, 1], [[0, 1], [1, 0]]),
         ([0, 0, 1], [[0, 0, 1], [0, 1, 0], [1, 0, 0]]),
+        ([1, 2, 1], [[1, 2, 1], [2, 1, 1], [1, 1, 2]]),
     ]
 
     for nums, solution in test_cases:
@@ -131,3 +137,16 @@ if __name__ == "__main__":
         string = " " * 60
         test_ok = solution == result
         print(string, f'\t\tTest: {"OK" if test_ok else "NOT OK"}')
+
+        # print(f">>> iterative_nums({nums})")
+        # result = iterative_nums(nums)
+
+        # result = sorted(result)
+        # string = str(result)
+        # if len(string) > 60:
+        #     string = string[:60] + "...]"
+        # print(string)
+
+        # string = " " * 60
+        # test_ok = solution == result
+        # print(string, f'\t\tTest: {"OK" if test_ok else "NOT OK"}')

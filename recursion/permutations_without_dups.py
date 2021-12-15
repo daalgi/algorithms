@@ -106,7 +106,7 @@ def iterative_nums(nums: List[int]) -> List[List[int]]:
 def backtrack_nums(nums: List[int]) -> List[List[int]]:
     res = []
 
-    def backtrack(start: int, end: int) -> None:
+    def dfs(start: int, end: int) -> None:
         # Recursive function
 
         # Base case
@@ -121,11 +121,52 @@ def backtrack_nums(nums: List[int]) -> List[List[int]]:
             # swap elements at `start` and `i`
             nums[start], nums[i] = nums[i], nums[start]
             # Given the candidate, explore further
-            backtrack(start + 1, end)
+            dfs(start + 1, end)
             # Backtrack: swap back the elements
             nums[start], nums[i] = nums[i], nums[start]
 
-    backtrack(0, len(nums))
+    dfs(0, len(nums))
+    return res
+
+
+def backtrack_nums2(nums: List[int]) -> List[List[int]]:
+    # Time complexity: O(n!)
+    # Space complexity: O(n!)
+
+    n = len(nums)
+
+    # Integer counter
+    counter = dict()
+    for num in nums:
+        counter[num] = counter.get(num, 0) + 1
+
+    # Result list
+    res = list()
+
+    def dfs(comb: List[int], counter: dict):
+        # Deep First Search recursive function
+
+        # Base case
+        if len(comb) == n:
+            res.append(comb[:])
+            return
+
+        # Loop over the numbers
+        for num in counter:
+            if counter[num] > 0:
+                # Only add the current number if the count is > 0
+
+                # New candidate solution: add current number
+                # to the current combination
+                comb.append(num)
+                counter[num] -= 1
+                # Continue the exploration
+                dfs(comb, counter)
+                # Revert the choice for the next exploration
+                comb.pop()
+                counter[num] += 1
+
+    dfs([], counter)
     return res
 
 
@@ -174,7 +215,7 @@ if __name__ == "__main__":
 
         solution = sorted([list(p) for p in solution])
 
-        print(f">>> iterative({nums})")
+        print(f">>>  iterative({nums})")
         result = iterative_nums(nums)
 
         result = sorted(result)
@@ -187,7 +228,7 @@ if __name__ == "__main__":
         test_ok = solution == result
         print(string, f'\t\tTest: {"OK" if test_ok else "NOT OK"}')
 
-        print(f">>> backtrack({nums})")
+        print(f">>>  backtrack({nums})")
         result = backtrack_nums(nums)
 
         result = sorted(result)
@@ -200,4 +241,16 @@ if __name__ == "__main__":
         test_ok = solution == result
         print(string, f'\t\tTest: {"OK" if test_ok else "NOT OK"}')
 
+        print(f">>> backtrack2({nums})")
+        result = backtrack_nums2(nums)
+
+        result = sorted(result)
+        string = str(result)
+        if len(string) > 60:
+            string = string[:60] + "...]"
+        print(string)
+
+        string = " " * 60
+        test_ok = solution == result
+        print(string, f'\t\tTest: {"OK" if test_ok else "NOT OK"}')
         print()
