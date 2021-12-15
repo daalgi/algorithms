@@ -106,10 +106,6 @@ if __name__ == "__main__":
 
     for boxes, solution in test_cases:
 
-        # boxes = [Box(w, h, d) for w, h, d in zip(widths, heights, depths)]
-        # boxes = sorted(boxes, reverse=True)
-        # print(boxes)
-
         print("Boxes:")
         for b in boxes:
             print(b)
