@@ -30,8 +30,9 @@ from functools import lru_cache
 
 
 def brute_force(m: int, n: int, max_moves: int, start_row: int, start_col: int) -> int:
-    # Time complexity: O(4^n),
-    # where `n` is the size of the moves allowed `max_moves`,
+    # Time complexity: O(4^N),
+    # Space complexity: O(N)
+    # where `N` is the size of the moves allowed `max_moves`,
     # and 4 is the possible choices at every point
     pass
 
@@ -67,8 +68,9 @@ def dp_tabulation(
     m: int, n: int, max_moves: int, start_row: int, start_col: int
 ) -> int:
     # Dynamic programming - Tabulation
-    # Time complexity: O(tn)
-    # Space complexity: O(tn)
+    # Time complexity: O(mnN)
+    # Space complexity: O(mnN)
+    # where m x n is the size of the grid, and N is `max_moves`
     # TODO
     pass
 
