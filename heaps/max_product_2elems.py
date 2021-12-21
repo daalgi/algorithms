@@ -28,6 +28,21 @@ Constraints:
 """
 from typing import List
 import heapq
+import math
+
+
+def scan(nums: List[int]) -> int:
+    # Time complexity: O(n)
+    # Space complexity: O(1)
+    # max1 >= max2
+    max1 = max2 = -math.inf
+    for num in nums:
+        if num >= max1:
+            max2 = max1
+            max1 = num
+        elif num > max2:
+            max2 = num
+    return (max1 - 1) * (max2 - 1)
 
 
 def heapmax1(nums: List[int]) -> int:
@@ -45,8 +60,9 @@ def heapmax1(nums: List[int]) -> int:
     # `heapq.nlargest(k, heap)`
     #   returns a list sorted in descending order of size `k`
     # print(heapq.nlargest(2, heap))
-    max1 = heapq.nlargest(2, heap)[-2]  # max
-    max2 = heapq.nlargest(2, heap)[-1]  # 2nd max
+    # max1 = heapq.nlargest(2, heap)[-2]  # max
+    # max2 = heapq.nlargest(2, heap)[-1]  # 2nd max
+    max1, max2 = heapq.nlargest(2, heap)
     return (max1 - 1) * (max2 - 1)
 
 
@@ -61,19 +77,18 @@ def heapmax2(nums: List[int]) -> int:
     # `heapq.nlargest(k, heap)`
     #   returns a list sorted in descending order of size `k`
     # print(heapq.nlargest(2, heap))
-    max1 = heapq.nlargest(2, nums)[-2]  # max
-    max2 = heapq.nlargest(2, nums)[-1]  # 2nd max
+    # max1 = heapq.nlargest(2, nums)[-2]  # max
+    # max2 = heapq.nlargest(2, nums)[-1]  # 2nd max
+    max1, max2 = heapq.nlargest(2, nums)
     return (max1 - 1) * (max2 - 1)
 
 
 if __name__ == "__main__":
-
     print("-" * 60)
     print("Maximum product of two elements in an array")
     print("-" * 60)
 
     test_cases = [
-        # (board_size, moves, row_start, col_start, solution)
         ([1, 2], 0),
         ([3, 7], 12),
         ([3, 4, 5, 2], 12),
@@ -84,6 +99,15 @@ if __name__ == "__main__":
     for nums, solution in test_cases:
 
         print("List:", nums)
+
+        result = scan([*nums])
+        output = f"\t    scan = "
+        output += " " * (25 - len(output))
+        output += str(result)
+        output += " " * (60 - len(output))
+        test_ok = solution == result
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
 
         result = heapmax1([*nums])
         output = f"\theapmax1 = "
