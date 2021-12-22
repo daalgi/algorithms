@@ -46,7 +46,7 @@ from typing import List
 import heapq
 
 
-def heap1(nums: List[int], val: int) -> float:
+def heap0(nums: List[int], val: int) -> float:
     # Time complexity: O(nlogn)
     # Space complexity: O(n)
 
@@ -60,7 +60,7 @@ def heap1(nums: List[int], val: int) -> float:
 
     # Add new value
     heapq.heappush(heap, val)
-    
+
     # Return the median
     # O(nlogn)
     size = len(heap)
@@ -143,12 +143,69 @@ class MedianFinder:
         return (self.top[0] - self.bottom[0]) / 2
 
 
-def heap2(nums: List[int], val: int) -> float:
+def heap1(nums: List[int], val: int) -> float:
     # Add number  - Time complexity: O(logn)
     # Find median - Time complexity: O(1)
     # Space complexity: O(n)
 
     mf = MedianFinder()
+    # Add the original numbers
+    for num in nums:
+        mf.add(num)
+
+    # Add the new number
+    mf.add(val)
+
+    return mf.find_median()
+
+
+class MedianFinder2:
+    def __init__(self) -> None:
+        # min-heap: heap with the larger half of the numbers,
+        # so we can get the minimum in O(1).
+        # The length of self.top will always be equal or +1
+        # of the length of self.bottom
+        self.top = []
+        # max-heap: heap with the smaller half of the numbers,
+        # so we can get the maximum in O(1)
+        self.bottom = []
+
+    def add(self, num: int) -> None:
+        # Time complexity: O(logn)
+        # Much more simplified version
+
+        if len(self.bottom) == len(self.top):
+            # If equal size, add the new number to the bottom heap,
+            # and pop the maximum number from the bottom heap to push it
+            # into the top heap.
+            heapq.heappush(self.bottom, -num)
+            heapq.heappush(self.top, -heapq.heappop(self.bottom))
+        else:
+            # If not equal size, add the new number to the top heap,
+            # and pop the minimum number from the top heap to push it
+            # into the bottom heap
+            heapq.heappush(self.top, num)
+            heapq.heappush(self.bottom, -heapq.heappop(self.top))
+
+    def find_median(self) -> float:
+        # Time complexity: O(1)
+        if len(self.top) > len(self.bottom):
+            # If there's an odd number of elements, the median
+            # is at the middle (the smallest number in the top half)
+            return self.top[0]
+
+        # If there's an even number of elements, the median
+        # is the mean of the smallest in the top half (self.top[0]) and the
+        # largest in the bottom half (-self.bottom[0])
+        return (self.top[0] - self.bottom[0]) / 2
+
+
+def heap2(nums: List[int], val: int) -> float:
+    # Add number  - Time complexity: O(logn)
+    # Find median - Time complexity: O(1)
+    # Space complexity: O(n)
+
+    mf = MedianFinder2()
     # Add the original numbers
     for num in nums:
         mf.add(num)
@@ -177,6 +234,15 @@ if __name__ == "__main__":
         output = f"Nums: {nums}"
         if len(output) > 30:
             output = output[:60] + "...]"
+        print(output)
+
+        result = heap0([*nums], val)
+        output = f"\t heap1({val}) = "
+        output += " " * (15 - len(output))
+        output += str(result)
+        test_ok = solution == result
+        output += " " * (50 - len(output))
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
         result = heap1([*nums], val)
