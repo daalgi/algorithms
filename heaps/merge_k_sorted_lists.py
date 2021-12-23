@@ -154,7 +154,7 @@ def heap(lists: List[ListNode]) -> List[ListNode]:
 
 if __name__ == "__main__":
     print("-" * 60)
-    print("Merg K sorted lists")
+    print("Merge K sorted lists")
     print("-" * 60)
 
     test_cases = [
