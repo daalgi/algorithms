@@ -2,21 +2,20 @@
 https://www.lintcode.com/problem/919/
 
 Given an array of meeting time intervals consisting of start and 
-end times [[s1,e1],[s2,e2],…] (si < ei), find the minimum number 
-of conference rooms required.
+end times [[s1,e1],[s2,e2],...](si< ei), determine if a person could 
+attend all meetings.
 
 Example 1:
-Input: meetings = [[0, 30],[5, 10],[15, 20]]
-Output: 2
-Two meeting rooms needed:
-- Meeting room 1: [0, 30]
-- Meeting room 2: [5, 10], [15, 20]
+Input:
+[[0,30],[5,10],[15,20]]
+Output:
+ false
 
 Example 2:
-Input: intervals = [(2,7)]
-Output: 1
-Explanation: 
-Only need one meeting room
+Input:
+ [[7,10],[2,4]]
+Output:
+ true
 """
 from typing import List
 from copy import deepcopy
