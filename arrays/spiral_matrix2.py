@@ -90,6 +90,40 @@ def moving_boundaries(n: int) -> List[List[int]]:
     return mat
 
 
+def walk_the_spiral(n: int) -> List[List[int]]:
+    # Time complexity: O(n²)
+    # Space complexity: O(n²)
+
+    mat = [[0] * n for _ in range(n)]
+    # Current pointer moves: (row, col)
+    moves = ((0, 1), (1, 0), (0, -1), (-1, 0))
+    # Index of the current move
+    move_id = 0
+    # Pointers to the current cell (row, col)
+    r, c = 0, 0
+    dr, dc = moves[move_id]
+    # Loop over until all the numbers have been filled,
+    # where the last number is `num = n * n = n^2`
+    n2 = n * n
+    for num in range(1, n2 + 1):
+        # Fill the current cell
+        mat[r][c] = num
+
+        # If the new cell has already been filled (non-zero),
+        # change the direction of the move
+        # Example of reaching the matrix boundaries, for n = 3:
+        # r = 2, dr =  1      r + dr =  3    3 % 3 = 0 (already filled)
+        # c = 0, dc = -1      c + dc = -1   -1 % 3 = 2 (already filled)
+        if mat[(r + dr) % n][(c + dc) % n]:
+            move_id = (move_id + 1) % 4
+            dr, dc = moves[move_id]
+
+        # Next cell
+        r, c = r + dr, c + dc
+
+    return mat
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Spiral matrix II")
@@ -108,6 +142,15 @@ if __name__ == "__main__":
 
         result = moving_boundaries(n)
         output = f"\t moving_boundaries = "
+        output += " " * (10 - len(output))
+        test_ok = solution == result
+        output += str(result)
+        output += "\n" + " " * 55
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = walk_the_spiral(n)
+        output = f"\t   walk_the_spiral = "
         output += " " * (10 - len(output))
         test_ok = solution == result
         output += str(result)
