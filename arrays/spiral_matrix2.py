@@ -1,25 +1,21 @@
 """
-https://leetcode.com/problems/spiral-matrix/
+https://leetcode.com/problems/spiral-matrix-ii/
 
-Given an m x n matrix, return all elements of the matrix 
-in spiral order.
+Given a positive integer n, generate an n x n matrix filled 
+with elements from 1 to n2 in spiral order.
 
 Example 1:
-Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
-Output: [1,2,3,6,9,8,7,4,5]
+Input: n = 3
+Output: [[1,2,3],[8,9,4],[7,6,5]]
 
 Example 2:
-Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
-Output: [1,2,3,4,8,12,11,10,9,5,6,7]
-
+Input: n = 1
+Output: [[1]]
+ 
 Constraints:
-m == matrix.length
-n == matrix[i].length
-1 <= m, n <= 10
--100 <= matrix[i][j] <= 100
+1 <= n <= 20
 """
 from typing import List
-from copy import deepcopy
 
 
 def print_matrix(mat):
@@ -29,9 +25,9 @@ def print_matrix(mat):
     print()
 
 
-def moving_boundaries(mat: List[List[int]]) -> List[int]:
-    # Time complexity: O(mn)
-    # Space complexity: O(mn)
+def moving_boundaries(n: int) -> List[List[int]]:
+    # Time complexity: O(n²)
+    # Space complexity: O(n²)
 
     def update_boundary(move_id: int, boundary: List[int]) -> tuple:
         # Update the boundary list upon the current `move_id`
@@ -60,9 +56,10 @@ def moving_boundaries(mat: List[List[int]]) -> List[int]:
         # c_start <= c <= c_end
         return boundary[0] <= r <= boundary[1] and boundary[2] <= c <= boundary[3]
 
-    arr = list()
+    # Initialize the result matrix `mat`
+    mat = [[0] * n for _ in range(n)]
     # Boundary list [r_start, r_end, c_start, c_end]
-    boundary = [0, len(mat) - 1, 0, len(mat[0]) - 1]
+    boundary = [0, n - 1, 0, n - 1]
     # Current pointer moves: (row, col)
     moves = ((0, 1), (1, 0), (0, -1), (-1, 0))
     # Index of the current move
@@ -70,11 +67,14 @@ def moving_boundaries(mat: List[List[int]]) -> List[int]:
     # row, col of the current cell or pointer
     r, c = 0, 0
     dr, dc = moves[move_id]
+    # Current number `i`
+    i = 1
     # Loop while the boundary list is valid (start and end don't cross)
     while valid_boundary(boundary):
 
         while point_within_boundary(r, c, boundary):
-            arr.append(mat[r][c])
+            mat[r][c] = i
+            i += 1
             r += dr
             c += dc
         # Undo the last row-col update
@@ -86,81 +86,28 @@ def moving_boundaries(mat: List[List[int]]) -> List[int]:
         dr, dc = moves[move_id]
         r, c = r + dr, c + dc
 
-    return arr
-
-
-def pop_and_rotate(mat: List[List[int]]) -> List[int]:
-    # Time complexity: O(m²n+mn²)
-    # Space complexity: O(mn)
-
-    arr = []
-    # Loop over until the input matrix is empty, O(m+n)
-    while mat:
-        # Pop the first row and store it in the result list `arr`,
-        # O(mn)
-        arr += mat.pop(0)
-        # Rotate the remaining matrix, O(mn)
-        mat = (list(zip(*mat)))[::-1]
-    return arr
+    # print_matrix(mat)
+    return mat
 
 
 if __name__ == "__main__":
     print("-" * 60)
-    print("Spiral matrix")
+    print("Spiral matrix II")
     print("-" * 60)
 
     test_cases = [
-        ([[1]], [1]),
-        (
-            [
-                [1, 2],
-                [4, 3],
-            ],
-            [1, 2, 3, 4],
-        ),
-        (
-            [
-                [1, 2, 3],
-                [1, 2, 3],
-                [1, 1, 1],
-            ],
-            [1, 2, 3, 3, 1, 1, 1, 1, 2],
-        ),
-        (
-            [
-                [1, 2, 3, 4],
-                [12, 1, 2, 5],
-                [11, 4, 3, 6],
-            ],
-            [1, 2, 3, 4, 5, 6, 3, 4, 11, 12, 1, 2],
-        ),
-        (
-            [
-                [10, 11],
-                [9, 4],
-                [8, 3],
-                [7, 6],
-            ],
-            [10, 11, 4, 3, 6, 7, 8, 9],
-        ),
+        (1, [[1]]),
+        (2, [[1, 2], [4, 3]]),
+        (3, [[1, 2, 3], [8, 9, 4], [7, 6, 5]]),
+        (4, [[1, 2, 3, 4], [12, 13, 14, 5], [11, 16, 15, 6], [10, 9, 8, 7]]),
     ]
 
-    for matrix, solution in test_cases:
+    for n, solution in test_cases:
 
-        print("Matrix:")
-        print_matrix(matrix)
+        print(f"Matrix size: {n} x {n}")
 
-        result = moving_boundaries(deepcopy(matrix))
+        result = moving_boundaries(n)
         output = f"\t moving_boundaries = "
-        output += " " * (10 - len(output))
-        test_ok = solution == result
-        output += str(result)
-        output += "\n" + " " * 55
-        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
-        print(output)
-
-        result = pop_and_rotate(deepcopy(matrix))
-        output = f"\t    pop_and_rotate = "
         output += " " * (10 - len(output))
         test_ok = solution == result
         output += str(result)
