@@ -39,7 +39,7 @@ def sliding_window(s: str, k: int) -> int:
     # Loop over the characters using two pointers to keep
     # track of both the current character (`right`), and the start
     # of the current substring (`left`)
-    left, right, max_length = 0, 0, 1 + k
+    left, max_length = 0, 1 + k
     for right in range(n):
         # Current character `c`
         c = s[right]
