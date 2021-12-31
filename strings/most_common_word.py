@@ -150,5 +150,5 @@ if __name__ == "__main__":
         output += " " * (55 - len(output))
         output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
         print(output)
-        
+
         print()
