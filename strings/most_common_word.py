@@ -39,7 +39,7 @@ from typing import List
 
 def sol1(paragraph: str, banned: List[str]) -> str:
     # Time complexity: O(m+n)
-    # Space complexity: O(m))
+    # Space complexity: O(m)
 
     def split_into_words(p: str) -> List[str]:
         curr, res = [], []
@@ -77,6 +77,46 @@ def sol1(paragraph: str, banned: List[str]) -> str:
     return most_common
 
 
+def one_pass(paragraph: str, banned: List[str]) -> str:
+    # Time complexity: O(m+n)
+    # Space complexity: O(m)
+
+    banned = set(banned)
+    signs = set([" ", "!", "?", "'", ",", ";", ":", "."])
+    i, n = 0, len(paragraph)
+    curr = []
+    count = {}
+    max_freq, most_common = 0, ""
+    while i < n:
+
+        # Skip signs
+        while i < n and paragraph[i] in signs:
+            i += 1
+
+        # Get next word
+        while i < n and paragraph[i] not in signs:
+            curr.append(paragraph[i].lower())
+            i += 1
+
+        if not curr:
+            continue
+
+        word = "".join(curr)
+        curr = []
+
+        # Skip banned words
+        if word in banned:
+            continue
+
+        # Update count
+        count[word] = count.get(word, 0) + 1
+        if count[word] > max_freq:
+            max_freq = count[word]
+            most_common = word
+
+    return most_common
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Most common word")
@@ -93,8 +133,8 @@ if __name__ == "__main__":
 
         print(f"Paragraph: {paragraph}\nBanned: {banned}")
 
-        result = sol1(paragraph, banned)
-        output = f"\t sol1 = "
+        result = sol1(paragraph, [*banned])
+        output = f"\t     sol1 = "
         output += " " * (10 - len(output))
         test_ok = solution == result
         output += str(result)
@@ -102,4 +142,13 @@ if __name__ == "__main__":
         output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
+        result = one_pass(paragraph, [*banned])
+        output = f"\t one_pass = "
+        output += " " * (10 - len(output))
+        test_ok = solution == result
+        output += str(result)
+        output += " " * (55 - len(output))
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+        
         print()
