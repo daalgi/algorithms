@@ -35,21 +35,10 @@ trie.search("app");     // return True
 Constraints:
 - 1 <= word.length, prefix.length <= 2000
 - word and prefix consist only of lowercase English letters.
-- At most 3 * 104 calls in total will be made to insert, 
+- At most 3 * 10^4 calls in total will be made to insert, 
 search, and startsWith.
 """
-import heapq
-from collections import deque
 from dataclasses import dataclass, field
-import sys
-
-sys.path.insert(1, "./")
-
-from tree_node import (
-    TreeNode,
-    list_traversal_to_bt,
-    print_tree,
-)
 
 
 @dataclass
@@ -102,12 +91,40 @@ if __name__ == "__main__":
     t = Trie()
     print(">> Initialize Trie\n")
 
-    words = ["apple", "app", "ape", "apartment", "python"]
+    test_cases = [
+        # (new_word, search, starts_with, search_after_insert)
+        ("apple", False, False, True),
+        ("app", False, True, True),
+        ("apartment", False, False, True),
+        ("bedroom", False, False, True),
+        ("bed", False, True, True),
+        ("python", False, False, True),
+    ]
 
-    for word in words:
-        print(f"Does the word '{word}' exist? {t.search(word)}")
-        print(f"Does any word start with '{word}'? {t.starts_with(word)}")
+    for word, first_search, starts_with, second_search in test_cases:
+
+        result = t.search(word)
+        output = f"Does the word '{word}' exist?"
+        output += " " * (45 - len(output)) + f"{result}"
+        test_ok = result == first_search
+        output += " " * (60 - len(output)) + f"Test {'OK' if test_ok else 'NOT OK'}"
+        print(output)
+
+        result = t.starts_with(word)
+        output = f"Does any word start with '{word}'?"
+        output += " " * (45 - len(output)) + f"{result}"
+        test_ok = result == starts_with
+        output += " " * (60 - len(output)) + f"Test {'OK' if test_ok else 'NOT OK'}"
+        print(output)
+
         t.insert(word)
         print(f">> Insert word: '{word}'")
-        print(f"Does the word '{word}' exist? {t.search(word)}")
+
+        result = t.search(word)
+        output = f"Does the word '{word}' exist?"
+        output += " " * (45 - len(output)) + f"{result}"
+        test_ok = result == second_search
+        output += " " * (60 - len(output)) + f"Test {'OK' if test_ok else 'NOT OK'}"
+        print(output)
+
         print()
