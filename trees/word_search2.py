@@ -54,11 +54,24 @@ class Trie:
         curr.is_word = True
 
 
+def brute_force(board: List[List[str]], trie: Trie, num_words: int) -> List[str]:
+    # Backtrack - Brute force
+    # Time complexity: O(M * N * W * 4^(L))
+    # Space complexity: O(W)
+    # where `M` and `N` are the rows and columns of the board,
+    # `W` is the number of words
+    # `L` is the average length of a word
+    # `S` is the sum of the length of all words
+    pass
+
+
 def backtrack(board: List[List[str]], trie: Trie, num_words: int) -> List[str]:
-    # Time complexity: O(M * N * 4 * 3^(L-2) + S)
+    # Backtrack - with a Trie data structure
+    # Time complexity: O(M * N * 4^(L))
     # Space complexity: O(S)
     # where `M` and `N` are the rows and columns of the board,
-    # `L` is the number of words length of a word
+    # `W` is the number of words
+    # `L` is the average length of a word
     # `S` is the sum of the length of all words
 
     def dfs(r: int, c: int, chars: List[str], node: TrieNode) -> None:
@@ -67,7 +80,7 @@ def backtrack(board: List[List[str]], trie: Trie, num_words: int) -> List[str]:
         # If the current node in the trie is a word,
         # add it to the result list
         if node.is_word:
-            res.append("".join(ch for ch in chars))
+            res.add("".join(ch for ch in chars))
             # To avoid to add the same word in future scans,
             # modify the trie
             node.is_word = False
@@ -104,8 +117,8 @@ def backtrack(board: List[List[str]], trie: Trie, num_words: int) -> List[str]:
         board[r][c] = temp
         return
 
-    # Result list
-    res = []
+    # Result set (using a list is slower in leetcode)
+    res = set()
     # Possible cell moves
     moves = ((1, 0), (0, 1), (-1, 0), (0, -1))
     # Loop over the cells of the board
@@ -126,13 +139,13 @@ def backtrack(board: List[List[str]], trie: Trie, num_words: int) -> List[str]:
             # equals the number of words in the trie,
             # early stop (no further words can be added)
             if len(res) == num_words:
-                return res
+                return list(res)
 
             # Explore the current cell
             dfs(r, c, [letter], trie.root.letters[letter])
 
     # print(res)
-    return res
+    return list(res)
 
 
 if __name__ == "__main__":
@@ -162,8 +175,18 @@ if __name__ == "__main__":
         (boards[0], ["abcd"], []),
         (
             boards[0],
-            ["abcd", "ab", "ac", "dc", "da", "ad", "dcab"],
+            ["abcd", "acdb", "bacd", "cdba", "dbac"],
+            ["acdb", "bacd", "cdba", "dbac"],
+        ),
+        (
+            boards[0],
+            ["abcd", "ab", "ac", "dc", "da", "ad", "dcab", "dbca"],
             ["ac", "ab", "dc", "dcab"],
+        ),
+        (
+            boards[1],
+            ["vrenaaoeta", "vlfiihkreaaai", "vlfiihkreaaa"],
+            ["vrenaaoeta", "vlfiihkreaaa"],
         ),
         (boards[1], ["oath", "pea", "eat", "rain"], ["oath", "eat"]),
         (boards[2], ["oa", "oaa"], ["oa", "oaa"]),
