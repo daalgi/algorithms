@@ -2,7 +2,6 @@
 MERGE SORT
 Running time: O(n log2(n))
 """
-from math import remainder
 from random import randint
 import time
 import cProfile

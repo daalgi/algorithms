@@ -245,7 +245,7 @@ def quicksort(arr: list) -> list:
         if left < right:
             p = partition(arr, left, right)
             _quicksort(arr, left, p)
-            _quicksort(arr, p + 1, right)
+            _quicksort(arr, p+1, right)
 
     def partition(arr: list, left: int, right: int) -> int:
         pivot = arr[(left + right) // 2]
