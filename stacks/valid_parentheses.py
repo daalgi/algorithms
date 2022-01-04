@@ -1,5 +1,6 @@
 """
 https://leetcode.com/problems/valid-parentheses/
+
 Given a string s containing just the characters 
 '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
@@ -28,13 +29,13 @@ Input: s = "{[]}"
 Output: true
 
 Constraints:
-1 <= s.length <= 104
+1 <= s.length <= 10^4
 s consists of parentheses only '()[]{}'.
 """
 from collections import deque
 
 
-def valid_parentheses(s: str) -> bool:
+def stack(s: str) -> bool:
     parentheses = {"(": ")", "{": "}", "[": "]"}
     stack = deque()
 
@@ -63,9 +64,23 @@ def valid_parentheses(s: str) -> bool:
                 # parenthesis, the string is not valid
                 return False
 
-    # If all the parentheses are balanced, 
+    # If all the parentheses are balanced,
     # the stack should be empty
     return len(stack) == 0
+
+
+def stack2(s: str) -> bool:
+    parentheses = {"(": ")", "{": "}", "[": "]"}
+    stack = deque()
+    for c in s:
+        if c in parentheses:
+            stack.append(c)
+        else:
+            if not stack or c != parentheses[stack[-1]]:
+                return False
+            stack.pop
+
+    return not stack
 
 
 if __name__ == "__main__":
@@ -86,9 +101,23 @@ if __name__ == "__main__":
 
     for s, solution in test_cases:
 
-        result = valid_parentheses(s)
-        string = f'valid_parentheses("{s}") = '
-        string += " " * (35 - len(string))
-        string += str(result)
-        string += " " * (70 - len(string))
-        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+        print(f"Parentheses:\t'{s}'")
+        result = stack(s)
+        output = f"\t   stack = "
+        output += " " * (20 - len(output))
+        output += str(result)
+        test_ok = solution == result
+        output += " " * (35 - len(output))
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = stack(s)
+        output = f"\t  stack2 = "
+        output += " " * (20 - len(output))
+        output += str(result)
+        test_ok = solution == result
+        output += " " * (35 - len(output))
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        print()
