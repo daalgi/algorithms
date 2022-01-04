@@ -31,6 +31,8 @@ from tree_node import TreeNode, list_traversal_to_bt, print_tree
 
 def recursion(root: TreeNode, target_sum: int) -> bool:
     def f(node: TreeNode, target_sum: int) -> bool:
+        # Recursive function
+
         # Base case
         if not node:
             if target_sum == 0:
@@ -64,6 +66,28 @@ def recursion(root: TreeNode, target_sum: int) -> bool:
     return f(root, target_sum)
 
 
+def recursion2(root: TreeNode, target_sum: int) -> bool:
+    # Time complexity: O(n)
+    # Space complexity: O(n)
+
+    # Base cases
+    if not root:
+        # Not a node
+        return False
+    if not root.left and not root.right and root.data == target_sum:
+        # Leaf node which value (data) equals the
+        # current `target_sum`
+        return True
+
+    target_sum -= root.data
+    return (
+        # Explore left subtree
+        recursion2(root.left, target_sum)
+        # Explore right subtree
+        or recursion2(root.right, target_sum)
+    )
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Path sum")
@@ -76,7 +100,9 @@ if __name__ == "__main__":
         ([1, 2, 3], 2, False),
         ([1, 2, 3], 3, True),
         ([1, 2, 3], 4, True),
+        ([1, 2, 3], 5, False),
         ([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, None, 1], 22, True),
+        ([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, None, 1], 10, False),
     ]
 
     for nums, target_sum, solution in test_cases:
@@ -87,8 +113,15 @@ if __name__ == "__main__":
         print()
 
         result = recursion(root, target_sum)
-        string = f"recursion({target_sum}) = "
-        string += " " * (35 - len(string))
+        string = f"\t  recursion({target_sum}) = "
+        string += " " * (20 - len(string))
         string += str(result)
-        string += " " * (60 - len(string))
+        string += " " * (30 - len(string))
+        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+
+        result = recursion2(root, target_sum)
+        string = f"\t recursion2({target_sum}) = "
+        string += " " * (20 - len(string))
+        string += str(result)
+        string += " " * (30 - len(string))
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')

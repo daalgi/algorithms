@@ -180,6 +180,7 @@ def sorted_array_to_bst(nums: list) -> TreeNode:
 
 
 def find_in_bst(root: TreeNode, data) -> TreeNode:
+    # Finds a node in a Binary Search Tree
     if not root:
         return None
     if root.data == data:
@@ -188,6 +189,15 @@ def find_in_bst(root: TreeNode, data) -> TreeNode:
         return find_in_bst(root.left, data)
     if root.data < data:
         return find_in_bst(root.right, data)
+
+
+def find_in_bt(root: TreeNode, data: int) -> TreeNode:
+    # Finds a node in a Binary Tree
+    if not root:
+        return None
+    if root.data == data:
+        return root
+    return find_in_bt(root.left, data) or find_in_bt(root.right, data)
 
 
 def print_tree(node: TreeNode, level=0):
