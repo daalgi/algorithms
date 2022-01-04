@@ -1,5 +1,6 @@
 """
 https://leetcode.com/problems/valid-parentheses/
+
 Given a string s, determine if the parentheses are well placed.
 
 An input string is valid if:
@@ -27,12 +28,14 @@ Input: s = "{a[b]c}d"
 Output: true
 
 Constraints:
-1 <= s.length <= 104
+1 <= s.length <= 10^4
 """
 from collections import deque
 
 
-def valid_parentheses(s: str) -> bool:
+def stack(s: str) -> bool:
+    # Time complexity: O(n)
+    # Space complexity: O(n)
     parentheses_set = set(["(", ")", "{", "}", "[", "]"])
     parentheses = {"(": ")", "{": "}", "[": "]"}
     stack = deque()
@@ -52,7 +55,7 @@ def valid_parentheses(s: str) -> bool:
 
             elif c in parentheses:
                 # If the character is an openening parenthesis, add its
-                # corresponding closing parenthesis 
+                # corresponding closing parenthesis
                 # to the stack to be compared with later characters
                 stack.append(parentheses[c])
 
@@ -68,9 +71,26 @@ def valid_parentheses(s: str) -> bool:
                     # parenthesis, the string is not valid
                     return False
 
-    # If all the parentheses are balanced, 
+    # If all the parentheses are balanced,
     # the stack should be empty
     return len(stack) == 0
+
+
+def stack2(s: str) -> bool:
+    # Time complexity: O(n)
+    # Space complexity: O(n)
+    parentheses_set = set(["(", ")", "{", "}", "[", "]"])
+    parentheses = {"(": ")", "{": "}", "[": "]"}
+    stack = deque()
+
+    for c in s:
+        if c in parentheses_set:
+            if c in parentheses:
+                stack.append(c)
+            else:
+                if not stack or c != parentheses[stack[-1]]:
+                    return False
+    return not stack
 
 
 if __name__ == "__main__":
@@ -91,9 +111,24 @@ if __name__ == "__main__":
 
     for s, solution in test_cases:
 
-        result = valid_parentheses(s)
-        string = f'valid_parentheses("{s}") = '
-        string += " " * (35 - len(string))
-        string += str(result)
-        string += " " * (70 - len(string))
-        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+        print(f"Parentheses:\t'{s}'")
+
+        result = stack(s)
+        output = f"\t   stack = "
+        output += " " * (20 - len(output))
+        output += str(result)
+        test_ok = solution == result
+        output += " " * (35 - len(output))
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = stack(s)
+        output = f"\t  stack2 = "
+        output += " " * (20 - len(output))
+        output += str(result)
+        test_ok = solution == result
+        output += " " * (35 - len(output))
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        print()

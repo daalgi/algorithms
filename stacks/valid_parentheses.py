@@ -36,6 +36,8 @@ from collections import deque
 
 
 def stack(s: str) -> bool:
+    # Time complexity: O(n)
+    # Space complexity: O(n)
     parentheses = {"(": ")", "{": "}", "[": "]"}
     stack = deque()
 
@@ -70,6 +72,8 @@ def stack(s: str) -> bool:
 
 
 def stack2(s: str) -> bool:
+    # Time complexity: O(n)
+    # Space complexity: O(n)
     parentheses = {"(": ")", "{": "}", "[": "]"}
     stack = deque()
     for c in s:
@@ -102,6 +106,7 @@ if __name__ == "__main__":
     for s, solution in test_cases:
 
         print(f"Parentheses:\t'{s}'")
+
         result = stack(s)
         output = f"\t   stack = "
         output += " " * (20 - len(output))
