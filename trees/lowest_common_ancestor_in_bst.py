@@ -17,7 +17,8 @@ Explanation: The LCA of nodes 2 and 8 is 6.
 Example 2:
 Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
 Output: 2
-Explanation: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+Explanation: The LCA of nodes 2 and 4 is 2, since a node can be 
+a descendant of itself according to the LCA definition.
 
 Example 3:
 Input: root = [2,1], p = 2, q = 1
@@ -25,7 +26,7 @@ Output: 2
 
 Constraints:
 The number of nodes in the tree is in the range [2, 105].
--109 <= Node.val <= 109
+-10^9 <= Node.val <= 10^9
 All Node.val are unique.
 p != q
 p and q will exist in the BST.
@@ -82,7 +83,7 @@ def recursion_bst(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
 
 
 def recursion_bt(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-    # Time complexity: O(h)
+    # Time complexity: O(n)
     # Space complexity: O(h), where `h` is the height of the tree
     # Note: general case, valid for any Binary Tree (not only BST)
     # Assumption: there's no reference to parent nodes
@@ -117,7 +118,7 @@ def recursion_bt(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
 
 if __name__ == "__main__":
     print("-" * 60)
-    print("Lowest common ancestor in a a Binary Search Tree")
+    print("Lowest common ancestor in a Binary Search Tree")
     print("-" * 60)
 
     test_cases = [
@@ -138,17 +139,15 @@ if __name__ == "__main__":
         ([1, 2, 3, 4, 5, 6, 7, 8, 9], 6, 9, 7),
     ]
 
-    print("\n>>>>> Binary Tree 1:")
-    case = 0
-    arr = test_cases[case][0]
-    root = sorted_array_to_bst(arr)
-    print_tree(root)
-
-    for nums, num1, num2, solution in test_cases[:3]:
+    for i, (nums, num1, num2, solution) in enumerate(test_cases):
 
         root = sorted_array_to_bst(nums)
         node1 = find_in_bst(root, num1)
         node2 = find_in_bst(root, num2)
+
+        if i in [0, 3]:
+            print(">>> Binary Tree:")
+            print_tree(root)
 
         res = iterative_bst(root, node1, node2)
         result = res.data if res else None
@@ -167,52 +166,6 @@ if __name__ == "__main__":
         print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
 
         res = recursion_bt(root, node1, node2)
-        result = res.data if res else None
-        string = f"   recursion_bt{num1, num2} = "
-        string += " " * (35 - len(string))
-        string += str(result)
-        string += " " * (60 - len(string))
-        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
-
-        res = recursion_bst(root, node1, node2)
-        result = res.data if res else None
-        string = f"  recursion_bst{num1, num2} = "
-        string += " " * (35 - len(string))
-        string += str(result)
-        string += " " * (60 - len(string))
-        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
-
-        print()
-
-    print("\n>>>>> Binary Tree 2:")
-    case = -1
-    arr = test_cases[case][0]
-    root = sorted_array_to_bst(arr)
-    print_tree(root)
-
-    for nums, num1, num2, solution in test_cases[3:]:
-
-        root = sorted_array_to_bst(nums)
-        node1 = find_in_bst(root, num1)
-        node2 = find_in_bst(root, num2)
-
-        res = iterative_bst(root, node1, node2)
-        result = res.data if res else None
-        string = f"  iterative_bst{num1, num2} = "
-        string += " " * (35 - len(string))
-        string += str(result)
-        string += " " * (60 - len(string))
-        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
-
-        res = iterative2_bst(root, node1, node2)
-        result = res.data if res else None
-        string = f" iterative2_bst{num1, num2} = "
-        string += " " * (35 - len(string))
-        string += str(result)
-        string += " " * (60 - len(string))
-        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
-
-        res = recursion_bst(root, node1, node2)
         result = res.data if res else None
         string = f"   recursion_bt{num1, num2} = "
         string += " " * (35 - len(string))
