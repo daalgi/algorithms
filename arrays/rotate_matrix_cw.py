@@ -17,9 +17,11 @@ Output: [
     [1, 1, 1],
 ]
 """
+from typing import List
 from copy import deepcopy
 
-def rotate(matrix: list) -> list:
+
+def layers_1(matrix: List[int]) -> List[int]:
     # In-place 90-deg-rotation of the matrix
     # Time complexity: O(n2)
     # Space complexity: O(1)
@@ -36,7 +38,7 @@ def rotate(matrix: list) -> list:
 
     # Number of layers, defining layer
     # as the perimeters of the successive
-    # sub-matrices 
+    # sub-matrices
     # (i.e. a 4x4 matrix has the 4x4 and the
     # 2x2 sub-matrices `layers`)
     layers = n // 2
@@ -53,7 +55,8 @@ def rotate(matrix: list) -> list:
 
     return matrix
 
-def sol2(matrix: list) -> list:
+
+def layers_2(matrix: list) -> list:
     # Book's solution
     # In-place 90-deg-rotation of the matrix
     # Time complexity: O(n2)
@@ -71,7 +74,7 @@ def sol2(matrix: list) -> list:
 
     # Number of layers, defining layer
     # as the perimeters of the successive
-    # sub-matrices 
+    # sub-matrices
     # (i.e. a 4x4 matrix has the 4x4 and the
     # 2x2 sub-matrices `layers`)
     layers = n // 2
@@ -86,67 +89,105 @@ def sol2(matrix: list) -> list:
             # Save the top item
             top = matrix[layer][i]
             # left -> top
-            matrix[layer][i] = matrix[last-offset][layer]
+            matrix[layer][i] = matrix[last - offset][layer]
             # bottom -> left
-            matrix[last-offset][layer] = matrix[last][last-offset]
+            matrix[last - offset][layer] = matrix[last][last - offset]
             # right -> bottom
-            matrix[last][last-offset] = matrix[i][last]
+            matrix[last][last - offset] = matrix[i][last]
             # top -> right
             matrix[i][last] = top
 
     return matrix
 
 
+def pythonic(matrix: List[int]) -> List[int]:
+    # `matrix[:]` keeps the reference to matrix, but updates the rows,
+    # so it can be considered that they're modified in-place
+    # matrix[:] = zip(*matrix[::-1])
+    matrix[:] = map(list, zip(*matrix[::-1]))
+    return matrix
+
+
 if __name__ == "__main__":
-    print('-' * 60)
-    print('Rotate matrix 90deg clockwise')
-    print('-' * 60)
+    print("-" * 60)
+    print("Rotate matrix 90deg clockwise")
+    print("-" * 60)
 
     test_cases = [
         ([[1]], [[1]]),
-        ([
-            [1, 2],
-            [4, 3],
-        ], [
-            [4, 1],
-            [3, 2],
-        ]),
-        ([
-            [1, 2, 3],
-            [1, 2, 3],
-            [1, 1, 1],
-        ], [
-            [1, 1, 1],
-            [1, 2, 2],
-            [1, 3, 3],
-        ]),
-        ([
-            [ 1, 2, 3, 4],
-            [12, 1, 2, 5],
-            [11, 4, 3, 6],
-            [10, 9, 8, 7],
-        ], [
-            [10, 11, 12, 1],
-            [ 9,  4,  1, 2],
-            [ 8,  3,  2, 3],
-            [ 7,  6,  5, 4],
-        ]),
+        (
+            [
+                [1, 2],
+                [4, 3],
+            ],
+            [
+                [4, 1],
+                [3, 2],
+            ],
+        ),
+        (
+            [
+                [1, 2, 3],
+                [1, 2, 3],
+                [1, 1, 1],
+            ],
+            [
+                [1, 1, 1],
+                [1, 2, 2],
+                [1, 3, 3],
+            ],
+        ),
+        (
+            [
+                [1, 2, 3, 4],
+                [12, 1, 2, 5],
+                [11, 4, 3, 6],
+                [10, 9, 8, 7],
+            ],
+            [
+                [10, 11, 12, 1],
+                [9, 4, 1, 2],
+                [8, 3, 2, 3],
+                [7, 6, 5, 4],
+            ],
+        ),
     ]
-    
+
     for matrix, solution in test_cases:
 
-        mat = deepcopy(matrix)
+        print("Matrix:", matrix)
 
-        string = f'rotate\n{mat}'
-        result = rotate(matrix)
-        string += f'\n{result}'
-        string += f'\nTest: {"OK" if solution == result else "NOT OK"}\n'
-        print(string)
+        result = layers_1(deepcopy(matrix))
+        output = "  layers_1 = "
+        print_result = str(result)
+        if len(print_result) > 40:
+            print_result = print_result[:35] + " ...]]"
+        output += print_result
+        output += " " * (60 - len(output))
+        test_ok = result == solution
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
 
-        string = f'sol2\n{mat}'
-        result = sol2(mat)
-        string += f'\n{result}'
-        string += f'\nTest: {"OK" if solution == result else "NOT OK"}\n'
-        print(string)
+        result = layers_2(deepcopy(matrix))
+        output = "  layers_2 = "
+        print_result = str(result)
+        if len(print_result) > 40:
+            print_result = print_result[:35] + " ...]]"
+        output += print_result
+        output += " " * (60 - len(output))
+        test_ok = result == solution
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = pythonic(deepcopy(matrix))
+        output = "  pythonic = "
+        print_result = str(result)
+        if len(print_result) > 40:
+            print_result = print_result[:35] + " ...]]"
+        output += print_result
+        output += " " * (60 - len(output))
+        test_ok = result == solution
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
 
         print()
