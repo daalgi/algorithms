@@ -91,7 +91,7 @@ def dfs_recursion(grid: List[List[int]]) -> int:
 def dfs_recursion2(grid: List[List[int]]) -> int:
     # Time complexity: O(mn)
     # Space complexity: O(1)
-    
+
     def dfs(r: int, c: int) -> int:
         # Base case: out-of-bounds or water
         if not 0 <= r < rows or not 0 <= c < cols or not grid[r][c]:
