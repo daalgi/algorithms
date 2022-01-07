@@ -39,6 +39,7 @@ grid[i][j] is either 0 or 1.
 """
 from typing import List
 from copy import deepcopy
+from collections import deque
 
 
 def print_matrix(grid: List[List[int]]):
@@ -103,6 +104,52 @@ def dfs_recursion2(grid: List[List[int]]) -> int:
     rows, cols = len(grid), len(grid[0])
     moves = ((1, 0), (0, 1), (-1, 0), (0, -1))
     return max(dfs(r, c) for r in range(rows) for c in range(cols))
+
+
+def bfs_iterative(grid: List[List[int]]) -> int:
+    # Time complexity: O(mn)
+    # Space complexity: O(1)
+
+    def bfs(row: int, col: int) -> int:
+        # Breadth First Search - Iterative
+
+        size = 0
+
+        # queue of tuples (row, col)
+        q = deque([(row, col)])
+        while q:
+            r, c = q.popleft()
+
+            if not 0 <= r < rows or not 0 <= c < cols or not grid[r][c]:
+                continue
+
+            # For each valid node in the current path,
+            # update the grid to avoid revisiting,
+            # and increase the size of the current island
+            grid[r][c] = 0
+            size += 1
+
+            for dr, dc in moves:
+                q.append((r + dr, c + dc))
+
+        return size
+
+    max_size = 0
+    moves = ((1, 0), (0, 1), (-1, 0), (0, -1))
+
+    # Loop over the cells of the grid
+    rows, cols = len(grid), len(grid[0])
+    for r in range(rows):
+        for c in range(cols):
+
+            if not grid[r][c]:
+                continue
+
+            size = bfs(r, c)
+            if size > max_size:
+                max_size = size
+
+    return max_size
 
 
 if __name__ == "__main__":
@@ -182,6 +229,15 @@ if __name__ == "__main__":
 
         result = dfs_recursion2(deepcopy(grid))
         output = f"       dfs_recursion2 = "
+        output += " " * (15 - len(output))
+        output += str(result)
+        output += " " * (60 - len(output))
+        test_ok = result == solution
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = bfs_iterative(deepcopy(grid))
+        output = f"        bfs_iterative = "
         output += " " * (15 - len(output))
         output += str(result)
         output += " " * (60 - len(output))
