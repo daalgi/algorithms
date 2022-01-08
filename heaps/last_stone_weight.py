@@ -67,6 +67,31 @@ def heapmax1(stones: List[int]) -> int:
     return -heap[0] if heap else 0
 
 
+def heapmax2(stones: List[int]) -> int:
+    # Time complexity: O(nlogn)
+    # Space complexity: O(n)
+
+    # Transform to negative values to have a "heapmax"
+    # (remember to multiply by -1 again when operating with them)
+    # O(n)
+    heap = [-s for s in stones]
+    # O(n)
+    heapq.heapify(heap)
+
+    # O(n)
+    while len(heap) > 1:
+        # O(1)
+        w1 = heapq.heappop(heap)
+        # O(1)
+        w2 = heapq.heappop(heap)
+        if w1 != w2:
+            w1 -= w2
+            # O(logn)
+            heapq.heappush(heap, w1)
+
+    return -heap[0] if heap else 0
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Last stone weight")
@@ -84,7 +109,16 @@ if __name__ == "__main__":
         print("Stones:", stones)
 
         result = heapmax1([*stones])
-        output = f"\heapmax1 = "
+        output = f"heapmax1 = "
+        output += " " * (25 - len(output))
+        output += str(result)
+        output += " " * (60 - len(output))
+        test_ok = solution == result
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = heapmax2([*stones])
+        output = f"heapmax2 = "
         output += " " * (25 - len(output))
         output += str(result)
         output += " " * (60 - len(output))
