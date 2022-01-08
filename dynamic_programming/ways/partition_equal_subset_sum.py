@@ -199,7 +199,7 @@ def bitset(nums: List[int]) -> bool:
 if __name__ == "__main__":
 
     print("-" * 60)
-    print("Target sum")
+    print("Partition equal subset sum")
     print("-" * 60)
 
     test_cases = [
