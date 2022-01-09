@@ -1,5 +1,6 @@
 """
 https://leetcode.com/problems/valid-parenthesis-string/
+
 Given a string s containing only three types of characters: 
 '(', ')' and '*', return true if s is valid.
 
@@ -104,8 +105,35 @@ def greedy2(s: str) -> bool:
     return bmin == 0
 
 
+def greedy3(s: str) -> bool:
+    """
+    1 - Starting from the first char, 
+        check if there're more open+wild than closed parentheses
+    2 - Starting from the last char,
+        check if there're more closed+wild than open parentheses
+    If both checks are ok, the parentheses are valid.
+    """
+    # Time complexity: O(n)
+    # Space complexity: O(n)
+    def validate(s: str, ref: str) -> bool:
+        bal, wild = 0, 0
+        for i in range(n):
+            if s[i] == "*":
+                wild += 1
+            else:
+                bal += 1 if s[i] == ref else -1
+
+            if bal + wild < 0:
+                return False
+
+        return bal <= wild
+
+    n = len(s)
+    return validate(s, "(") and validate(s[::-1], ")")
+
+
 def stack(s: str) -> bool:
-    # TODO    
+    # TODO
     pass
 
 
@@ -146,17 +174,30 @@ if __name__ == "__main__":
     for s, solution in test_cases:
 
         result = greedy1(s)
-        string = f'greedy1("{s}") = '
-        string += " " * (35 - len(string))
-        string += str(result)
-        string += " " * (60 - len(string))
-        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+        output = f'greedy1("{s}") = '
+        output += " " * (35 - len(output))
+        output += str(result)
+        output += " " * (60 - len(output))
+        test_ok = solution == result
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
 
         result = greedy2(s)
-        string = f'greedy2("{s}") = '
-        string += " " * (35 - len(string))
-        string += str(result)
-        string += " " * (60 - len(string))
-        print(string, f'\t\tTest: {"OK" if solution == result else "NOT OK"}')
+        output = f'greedy2("{s}") = '
+        output += " " * (35 - len(output))
+        output += str(result)
+        output += " " * (60 - len(output))
+        test_ok = solution == result
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = greedy3(s)
+        output = f'greedy2("{s}") = '
+        output += " " * (35 - len(output))
+        output += str(result)
+        output += " " * (60 - len(output))
+        test_ok = solution == result
+        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        print(output)
 
         print()
