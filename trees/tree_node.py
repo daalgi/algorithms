@@ -5,7 +5,7 @@ from collections import deque
 
 
 class TreeNode:
-    def __init__(self, d: int):
+    def __init__(self, d: int = 0):
         self.data = d
         self.size = 1
         self.left = None
@@ -198,6 +198,18 @@ def find_in_bt(root: TreeNode, data: int) -> TreeNode:
     if root.data == data:
         return root
     return find_in_bt(root.left, data) or find_in_bt(root.right, data)
+
+
+def clone_bt(root: TreeNode) -> TreeNode:
+    # Pre-order traversal - Recursive
+    if not root:
+        return None
+
+    new_root = TreeNode(root.data)
+    new_root.left = clone_bt(root.left)
+    new_root.right = clone_bt(root.right)
+
+    return new_root
 
 
 def print_tree(node: TreeNode, level=0):
