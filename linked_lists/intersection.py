@@ -206,7 +206,7 @@ def two_pointers(head1: Node, head2: Node) -> int:
         a = head2 if not a else a.next
         b = head1 if not b else b.next
 
-    return a.val if a else None
+    return a
 
 
 if __name__ == "__main__":
@@ -231,7 +231,7 @@ if __name__ == "__main__":
 
         print("Linked-list 1:", nums1)
         print("Linked-list 2:", nums2)
-        
+
         res = brute_force(head1, head2)
         output = f"   brute_force = "
         output += str(res)
