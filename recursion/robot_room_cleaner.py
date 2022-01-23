@@ -134,6 +134,11 @@ class Robot:
 
 
 def backtrack1(robot: Robot):
+    # Time complexity: O(n - m)
+    # Space complexity: O(n - m)
+    # where `n` is the number of cells,
+    # and `m` is the number of obstacles
+
     def go_back():
         # Go back to the previous position
         # (rotate 180deg, move to the previous cell,
