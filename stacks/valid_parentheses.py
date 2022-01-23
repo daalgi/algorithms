@@ -35,7 +35,7 @@ s consists of parentheses only '()[]{}'.
 from collections import deque
 
 
-def stack(s: str) -> bool:
+def stack1(s: str) -> bool:
     # Time complexity: O(n)
     # Space complexity: O(n)
     parentheses = {"(": ")", "{": "}", "[": "]"}
@@ -82,7 +82,7 @@ def stack2(s: str) -> bool:
         else:
             if not stack or c != parentheses[stack[-1]]:
                 return False
-            stack.pop
+            stack.pop()
 
     return not stack
 
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
         print(f"Parentheses:\t'{s}'")
 
-        result = stack(s)
+        result = stack1(s)
         output = f"\t   stack = "
         output += " " * (20 - len(output))
         output += str(result)
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
-        result = stack(s)
+        result = stack2(s)
         output = f"\t  stack2 = "
         output += " " * (20 - len(output))
         output += str(result)
