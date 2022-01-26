@@ -76,7 +76,7 @@ def one_scan2(time_series: List[int], duration: int) -> int:
 
 if __name__ == "__main__":
     print("-" * 60)
-    print("Can place flowers")
+    print("Teemo attacking")
     print("-" * 60)
 
     test_cases = [
