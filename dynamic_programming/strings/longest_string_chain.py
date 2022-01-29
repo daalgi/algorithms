@@ -46,6 +46,7 @@ Constraints:
 words[i] only consists of lowercase English letters.
 """
 from typing import List
+from copy import deepcopy
 
 
 def dp_memoization(words: List[str]) -> int:
@@ -106,6 +107,16 @@ def dp_tabulation(words: List[str]) -> int:
     return longest_chain
 
 
+def dp_tabulation2(words: List[str]) -> int:
+    # Dynamic programming - Tabulation
+    # Time complexity: O(nlogn + n L²)
+    # Space complexity: O(n)
+    dp = {}
+    for w in sorted(words, key=len):
+        dp[w] = max(dp.get(w[:i] + w[i + 1 :], 0) + 1 for i in range(len(w)))
+    return max(dp.values())
+
+
 if __name__ == "__main__":
 
     print("-" * 60)
@@ -123,7 +134,7 @@ if __name__ == "__main__":
 
         print("Words:", words)
 
-        result = dp_memoization([*words])
+        result = dp_memoization(deepcopy(words))
         output = f"    dp_memoization = "
         output += str(result)
         output += " " * (50 - len(output))
@@ -131,8 +142,16 @@ if __name__ == "__main__":
         output += f'Test: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
-        result = dp_tabulation([*words])
+        result = dp_tabulation(deepcopy(words))
         output = f"     dp_tabulation = "
+        output += str(result)
+        output += " " * (50 - len(output))
+        test_ok = solution == result
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = dp_tabulation2(deepcopy(words))
+        output = f"    dp_tabulation2 = "
         output += str(result)
         output += " " * (50 - len(output))
         test_ok = solution == result
