@@ -57,7 +57,7 @@ def two_pointers(source: str, target: str) -> bool:
 
 
 def hashmap(source: str, target: str) -> bool:
-    # Time complexity: O(t + s)
+    # Time complexity: O(t + s log t)
     # Space complexity: O(t)
     # Solution to the follow-up question:
     # multiple `source` strings for a constant `target`
