@@ -44,6 +44,7 @@ def has_precedence(curr_op: str, prev_op: str) -> bool:
 
 
 def process_operation(operator: str, right: int, left: int) -> float:
+    # print("Operation:", (left, operator, right))
     if operator == "+":
         return left + right
     if operator == "-":
@@ -144,6 +145,7 @@ if __name__ == "__main__":
         ("(10 + 2) * 6", 72),
         ("((10 + 2) / 2) * (6 - 6/2)", 18),
         ("10/(2+3)", 2),
+        ("3+5*2*(2-1-1)", 3),
         ("3-1", 2),
         ("3-1-2-3", -3),
         ("1*2*3", 6),
