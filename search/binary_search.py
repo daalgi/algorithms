@@ -15,7 +15,7 @@ def search(nums: List[int], target: int) -> int:
     return right if nums[right] == target else None
 
 
-def search_equal_or_next_smaller(nums: List[int], target: int) -> int:
+def search_equal_or_prev_smaller(nums: List[int], target: int) -> int:
     # Time complexity: O(logn)
     # Space complexity: O(1)
 
@@ -80,32 +80,85 @@ def search_equal_or_next_greater(nums: List[int], target: int) -> int:
     return right
 
 
+def search_prev_smaller(nums: List[int], target: int) -> int:
+    # Time complexity: O(logn)
+    # Space complexity: O(1)
+    if nums[0] >= target:
+        return None
+
+    left, right = 0, len(nums) - 1
+
+    if nums[-1] < target:
+        return right
+
+    while left < right:
+        # `mid` leaning towards the right
+        mid = (left + right + 1) // 2
+        if target == nums[mid]:
+            # If target found, return the previous index.
+            # Since `mid` leans towards the right,
+            # no need to check if `mid > 0`, it'll always be
+            return mid - 1
+        elif target < nums[mid]:
+            right = mid - 1
+        else:
+            left = mid
+
+    return left
+
+
+def search_next_greater(nums: List[int], target: int) -> int:
+    # Time complexity: O(logn)
+    # Space complexity: O(1)
+    if nums[0] > target:
+        return 0
+    if nums[-1] <= target:
+        return None
+
+    left, right = 0, len(nums) - 1
+    while left < right:
+        mid = (left + right) // 2
+        if target < nums[mid]:
+            right = mid
+        else:
+            left = mid + 1
+
+    return right
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Binary search")
     print("-" * 60)
 
     test_cases = [
-        # (nums, target, search_solution, search_eq_sm_solution, search_eq_gt_solution)
-        ([0], 0, 0, 0, 0),
-        ([1, 3, 5, 7, 13, 20], 0, None, None, 0),
-        ([1, 3, 5, 7, 13, 20], 3, 1, 1, 1),
-        ([1, 3, 5, 7, 13, 20], 5, 2, 2, 2),
-        ([1, 3, 5, 7, 13, 20], 6, None, 2, 3),
-        ([1, 3, 5, 7, 13, 20], 7, 3, 3, 3),
-        ([1, 3, 5, 7, 13, 20], 8, None, 3, 4),
-        ([1, 3, 5, 7, 13, 20], 12, None, 3, 4),
-        ([1, 3, 5, 7, 13, 20], 18, None, 4, 5),
-        ([1, 3, 5, 7, 13, 20], 20, 5, 5, 5),
-        ([1, 3, 5, 7, 13, 20], 21, None, 5, None),
+        # (
+        #   nums, target, search_solution,
+        #   search_eq_lt_solution, search_eq_gt_solution,
+        #   search_lt_solution, search_gt_solution,
+        # )
+        ([0], 0, 0, 0, 0, None, None),
+        ([1, 3, 5, 7, 13, 20], 0, None, None, 0, None, 0),
+        ([1, 3, 5, 7, 13, 20], 3, 1, 1, 1, 0, 2),
+        ([1, 3, 5, 7, 13, 20], 5, 2, 2, 2, 1, 3),
+        ([1, 3, 5, 7, 13, 20], 6, None, 2, 3, 2, 3),
+        ([1, 3, 5, 7, 13, 20], 7, 3, 3, 3, 2, 4),
+        ([1, 3, 5, 7, 13, 20], 8, None, 3, 4, 3, 4),
+        ([1, 3, 5, 7, 13, 20], 12, None, 3, 4, 3, 4),
+        ([1, 3, 5, 7, 13, 20], 13, 4, 4, 4, 3, 5),
+        ([1, 3, 5, 7, 13, 20], 18, None, 4, 5, 4, 5),
+        ([1, 3, 5, 7, 13, 20], 20, 5, 5, 5, 4, None),
+        ([1, 3, 5, 7, 13, 20], 21, None, 5, None, 5, None),
     ]
 
     for (
         nums,
         target,
         search_solution,
-        search_eq_sm_solution,
+        search_eq_lt_solution,
         search_eq_gt_solution,
+        search_lt_solution,
+        search_gt_solution,
     ) in test_cases:
 
         print("Array:", nums)
@@ -121,12 +174,12 @@ if __name__ == "__main__":
         output += f'Test: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
-        result = search_equal_or_next_smaller(nums, target)
-        output = f"  search_equal_or_next_smaller = "
+        result = search_equal_or_prev_smaller(nums, target)
+        output = f"  search_equal_or_prev_smaller = "
         output += f"{result}"
         if result is not None:
             output += f" ({nums[result]})"
-        test_ok = search_eq_sm_solution == result
+        test_ok = search_eq_lt_solution == result
         output += " " * (55 - len(output))
         output += f'Test: {"OK" if test_ok else "NOT OK"}'
         print(output)
@@ -137,6 +190,26 @@ if __name__ == "__main__":
         if result is not None:
             output += f" ({nums[result]})"
         test_ok = search_eq_gt_solution == result
+        output += " " * (55 - len(output))
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = search_prev_smaller(nums, target)
+        output = f"           search_prev_smaller = "
+        output += f"{result}"
+        if result is not None:
+            output += f" ({nums[result]})"
+        test_ok = search_lt_solution == result
+        output += " " * (55 - len(output))
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = search_next_greater(nums, target)
+        output = f"           search_next_greater = "
+        output += f"{result}"
+        if result is not None:
+            output += f" ({nums[result]})"
+        test_ok = search_gt_solution == result
         output += " " * (55 - len(output))
         output += f'Test: {"OK" if test_ok else "NOT OK"}'
         print(output)
