@@ -78,7 +78,7 @@ class SnapshotArrayBinarySearch:
         return self.last_snap_id - 1
 
     def get(self, index: int, snap_id: int) -> int:
-        # Time complexity: O(n + logn) 
+        # Time complexity: O(n + logn)
         # --> better to avoid calling `list()`
         if 0 <= snap_id <= self.last_snap_id and 0 <= index < self.length:
             if snap_id in self.snaps[index]:
