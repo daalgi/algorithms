@@ -143,6 +143,42 @@ def sorting_one_scan2(
 def sorting_one_scan3(
     s: str, indices: List[int], sources: List[str], targets: List[str]
 ) -> str:
+    # Time complexity: O(n)
+    # Space complexity: O(n)
+
+    # Note: if there're no overlappings, there's no need
+    # to sort the indices
+
+    # Result array
+    arr = [c for c in s]
+
+    # Loop over the replacements
+    n = len(indices)
+    for i in range(n):
+        index, source, target = indices[i], sources[i], targets[i]
+
+        size = len(source)
+
+        # Check if the `source` exists in the string `s`
+        # at the expected location
+        if s[index : index + size] == source:
+            # Replace the character at `index` with `source`
+            arr[index] = target
+
+            # If size > 1, remove the remaining chars in the
+            # result array `arr`
+            start = index
+            index += 1
+            while index < start + size:
+                arr[index] = ""
+                index += 1
+
+    return "".join(arr)
+
+
+def sorting_one_scan4(
+    s: str, indices: List[int], sources: List[str], targets: List[str]
+) -> str:
     # Time complexity: O(nlogn)
     # Space complexity: O(n)
     for i, so, t in sorted(zip(indices, sources, targets), reverse=True):
@@ -192,6 +228,14 @@ if __name__ == "__main__":
 
         result = sorting_one_scan3(s, indices, sources, targets)
         output = f"  sorting_one_scan3 = "
+        test_ok = solution == result
+        output += str(result)
+        output += " " * (55 - len(output))
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = sorting_one_scan4(s, indices, sources, targets)
+        output = f"  sorting_one_scan4 = "
         test_ok = solution == result
         output += str(result)
         output += " " * (55 - len(output))
