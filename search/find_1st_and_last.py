@@ -81,6 +81,37 @@ def binary_search(nums: List[int], target: int) -> List[int]:
     return [left, hi]
 
 
+def binary_search2(nums: List[int], target: int) -> List[int]:
+    # Time complexity: O(logn)
+    # Space complexity: O(1)
+    if not nums:
+        return [-1, -1]
+
+    n = len(nums)
+
+    # Binary search to find the first element
+    lo, hi = 0, n - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if nums[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    left = lo
+
+    # Binary search to find the last element
+    hi = n - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if nums[mid] <= target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    
+    return [left, hi] if left <= hi else [-1, -1]
+
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Find first and last position of element in sorted array")
@@ -103,6 +134,14 @@ if __name__ == "__main__":
 
         result = binary_search(nums, target)
         output = f"          binary_search = "
+        output += str(result)
+        test_ok = solution == result
+        output += " " * (50 - len(output))
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = binary_search2(nums, target)
+        output = f"         binary_search2 = "
         output += str(result)
         test_ok = solution == result
         output += " " * (50 - len(output))
