@@ -40,9 +40,9 @@ def recursion(root: TreeNode) -> List[int]:
     def helper(node: TreeNode):
         if not node:
             return
-        res.append(node.data)
         helper(node.left)
         helper(node.right)
+        res.append(node.data)
 
     res = []
     helper(root)
@@ -52,17 +52,17 @@ def recursion(root: TreeNode) -> List[int]:
 def iterative(root: TreeNode) -> List[int]:
     # Time complexity: O(n)
     # Space complexity: O(n)
-    if not root:
-        return []
     res = []
-    stack = deque([root])
+    stack = deque([(root, False)])
     while stack:
-        node = stack.pop()
-        res.append(node.data)
-        if node.right:
-            stack.append(node.right)
-        if node.left:
-            stack.append(node.left)
+        node, visited = stack.pop()
+        if node:
+            if visited:
+                res.append(node.data)
+            else:
+                stack.append((node, True))
+                stack.append((node.right, False))
+                stack.append((node.left, False))
 
     return res
 
@@ -70,16 +70,26 @@ def iterative(root: TreeNode) -> List[int]:
 def iterative2(root: TreeNode) -> List[int]:
     # Time complexity: O(n)
     # Space complexity: O(n)
+    # Strategy: add to the stack both nodes
+    # and the data of the nodes while traversing
+    # the tree
     res = []
     stack = deque([root])
     while stack:
         temp = stack.pop()
         if temp is not None:
             if isinstance(temp, TreeNode):
+                # If the current element of the stack is a node,
+                # first, add the data
+                stack.append(temp.data)
+                # then, the children (right and left), so we
+                # can continue exploring the tree in next iteration
+                # starting from the left child
                 stack.append(temp.right)
                 stack.append(temp.left)
-                stack.append(temp.data)
             else:
+                # If the current element of the stack is not a node,
+                # it's a number, add it to the traversal
                 res.append(temp)
 
     return res
@@ -87,20 +97,20 @@ def iterative2(root: TreeNode) -> List[int]:
 
 if __name__ == "__main__":
     print("-" * 60)
-    print("Binary tree preorder traversal")
+    print("Binary tree postorder traversal")
     print("-" * 60)
 
     test_cases = [
         ([1], [1]),
-        ([1, 2, 3], [1, 2, 3]),
-        ([1, 2, 3, 4, 5], [1, 2, 4, 5, 3]),
+        ([1, 2, 3], [2, 3, 1]),
+        ([1, 2, 3, 4, 5], [4, 5, 2, 3, 1]),
         (
             [1, 2, None, 3, 4, 5, None, 6, 7, 8, 9, None, 10],
-            [1, 2, 3, 5, 8, 9, 4, 6, 10, 7],
+            [8, 9, 5, 3, 10, 6, 7, 4, 2, 1],
         ),
         (
             [1, 2, 3, 4, 5, 6, None, 7, 8, 9, None, 10],
-            [1, 2, 4, 7, 8, 5, 9, 3, 6, 10],
+            [7, 8, 4, 9, 5, 2, 10, 6, 3, 1],
         ),
     ]
 
