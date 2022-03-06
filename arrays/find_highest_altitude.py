@@ -33,7 +33,7 @@ from itertools import accumulate
 
 def prefix_sum(nums: List[int]) -> int:
     # Time complexity: O(n²)
-    # Space complexity: O(n)
+    # Space complexity: O(1)
 
     curr_height, n = nums[0], len(nums)
     max_gain = max(curr_height, 0)
