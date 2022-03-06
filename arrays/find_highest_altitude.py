@@ -86,12 +86,4 @@ if __name__ == "__main__":
         output += f'Test: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
-        # result = frequencies(nums)
-        # output = "   frequencies = "
-        # output += str(result)
-        # output += " " * (60 - len(output))
-        # test_ok = result == solution
-        # output += f'Test: {"OK" if test_ok else "NOT OK"}'
-        # print(output)
-
         print()
