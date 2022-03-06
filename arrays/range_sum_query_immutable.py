@@ -56,24 +56,24 @@ def prefix_sum(nums: List[int], left: int, right: int) -> int:
     # Space complexity: O(n)
 
     n = len(nums)
-    prefix_sum = [nums[0]]
+    acc = [nums[0]]
     for i in range(1, n):
-        prefix_sum.append(prefix_sum[-1] + nums[i])
+        acc.append(acc[-1] + nums[i])
 
     if left == 0:
-        return prefix_sum[right]
-    return prefix_sum[right] - prefix_sum[left - 1]
+        return acc[right]
+    return acc[right] - acc[left - 1]
 
 
 def prefix_sum2(nums: List[int], left: int, right: int) -> int:
     # Time complexity: O(n)
     # Space complexity: O(n)
 
-    prefix_sum = [0]
+    acc = [0]
     for num in nums:
-        prefix_sum.append(prefix_sum[-1] + num)
+        acc.append(acc[-1] + num)
 
-    return prefix_sum[right + 1] - prefix_sum[left]
+    return acc[right + 1] - acc[left]
 
 
 if __name__ == "__main__":

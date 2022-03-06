@@ -47,11 +47,11 @@ def prefix_sum(nums: List[int]) -> int:
     # Time complexity: O(n)
     # Space complexity: O(n)
 
-    prefix_sum = [0]
+    acc = [0]
     for num in nums:
-        prefix_sum.append(prefix_sum[-1] + num)
+        acc.append(acc[-1] + num)
 
-    return max(-min(prefix_sum), 0) + 1
+    return max(-min(acc), 0) + 1
 
 
 def prefix_sum2(nums: List[int]) -> int:

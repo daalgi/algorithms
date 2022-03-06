@@ -59,21 +59,21 @@ def prefix_sum(nums: List[int]) -> int:
     # Space complexity: O(n)
 
     n = len(nums)
-    prefix_sum = [nums[0]]
+    acc = [nums[0]]
     for i in range(1, n):
-        prefix_sum.append(prefix_sum[-1] + nums[i])
+        acc.append(acc[-1] + nums[i])
 
     # Sum of size 1 subarrays
     res = sum(nums)
 
     # Sum of subarrays starting at element 0
     for right in range(2, n, 2):
-        res += prefix_sum[right]
+        res += acc[right]
 
     # Sum of subarrays starting at the rest of elements
     for left in range(1, n):
         for right in range(left + 2, n, 2):
-            res += prefix_sum[right] - prefix_sum[left - 1]
+            res += acc[right] - acc[left - 1]
 
     return res
 
