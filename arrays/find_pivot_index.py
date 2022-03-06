@@ -51,13 +51,13 @@ def prefix_sum(nums: List[int]) -> int:
     # Time complexity: O(n)
     # Space complexity: O(n)
 
-    prefix_sum = [0]
+    acc = [0]
     for num in nums:
-        prefix_sum.append(prefix_sum[-1] + num)
+        acc.append(acc[-1] + num)
 
-    n = len(prefix_sum)
+    n = len(acc)
     for i in range(1, n):
-        if prefix_sum[i - 1] == prefix_sum[-1] - prefix_sum[i]:
+        if acc[i - 1] == acc[-1] - acc[i]:
             return i - 1
 
     return -1
