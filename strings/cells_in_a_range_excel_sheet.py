@@ -49,7 +49,7 @@ from typing import List
 
 def two_loops(s: str) -> List[str]:
     # Time complexity: O(n)
-    # Space complexity: O(1)
+    # Space complexity: O(n)
 
     # Note: f"{chr(col)}{row}" much slower
     return [
