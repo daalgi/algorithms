@@ -67,6 +67,18 @@ def sliding_window(cards: List[int], k: int) -> int:
     return max_score
 
 
+def sliding_window2(cards: List[int], k: int) -> int:
+    # Time complexity: O(n)
+    # Space complexity: O(1)
+    max_points = curr_points = sum(cards[:k])
+    for i in range(1, k + 1):
+        curr_points += cards[-i] - cards[k - i]
+        if curr_points > max_points:
+            max_points = curr_points
+
+    return max_points
+
+
 if __name__ == "__main__":
     print("-" * 60)
     print("Maximum points you can obtain from cards")
@@ -88,7 +100,14 @@ if __name__ == "__main__":
 
         result = sliding_window(cards, k)
         output = f"     sliding_window = "
-        output += " " * (10 - len(output))
+        test_ok = solution == result
+        output += str(result)
+        output += " " * (55 - len(output))
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
+        print(output)
+
+        result = sliding_window2(cards, k)
+        output = f"    sliding_window2 = "
         test_ok = solution == result
         output += str(result)
         output += " " * (55 - len(output))
