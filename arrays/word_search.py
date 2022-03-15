@@ -209,6 +209,7 @@ if __name__ == "__main__":
         ],
         [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]],
         [["a" for _ in range(20)] for _ in range(20)],
+        [["C","A","A"],["A","A","A"],["B","C","D"]],
     ]
 
     test_cases = [
@@ -228,6 +229,7 @@ if __name__ == "__main__":
         (boards[4], "qqqqqq", False),
         (boards[4], "aaaaaaaab", False),
         (boards[4], "aaaaaaaaa", True),
+        (boards[5], "AAB", True),
     ]
 
     for board, word, solution in test_cases:
