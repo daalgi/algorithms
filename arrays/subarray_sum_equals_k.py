@@ -26,10 +26,8 @@ the sum is going to increase.
 - removing a value in the subarray doesn't guarantee that
 the sum is going to decrease.
 """
-from sys import prefix
 from typing import List
 from collections import defaultdict
-from unittest import TestCase
 
 
 def brute_force(nums: List[int], k: int) -> int:
@@ -198,6 +196,7 @@ if __name__ == "__main__":
         ([-1, 3, -1, 2], 2, 3),
         ([-1, 3, 1, 2, -2, 0, 2], 3, 6),
         ([-1, 3, 1, 2, -1, 0, 2], 3, 4),
+        ([-5, 3, 1, 2, -1, 0, 2], 3, 3),
         (
             [1, 2, 3, 5, 7, 2, 4, 2, 4, 1, 4, 3, 0, 0, 0, 2, 2, -1, 2, -1, 2, -3],
             8,
