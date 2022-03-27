@@ -102,6 +102,17 @@ def heaps(nums: List[int]) -> int:
     # to improve the time complexity.
     # `heapq.nsmallest` returns the `k` smallest numbers in a list in O(nlogk)
     # `heapq.nlargest` returns the `k` largest numbers in a list in O(nlogk)
+    """
+    Example:
+       k        1   5   6  13  14  15  16  17
+       0        17 - 1 = 16
+       1    min(17 - 5, 16 - 1) = 12
+       2    min(17 - 6, 16 - 5, 15 - 1) = 11
+       3    min(17 - 13, 16 - 6, 15 - 5, 14 - 1) = 4
+
+    Equivalent to minimize the maximum amplitude (difference)
+    after removing `k` elements in the list.
+    """
     n = len(nums)
     if n < 5:
         return 0
@@ -130,6 +141,7 @@ if __name__ == "__main__":
         ([0, 8, 9, 10], 0),
         ([0, 1, 8, 9, 10], 1),
         ([0, 1, 9, 18, 19, 20], 2),
+        ([1, 5, 6, 13, 14, 15, 16, 17], 4),
         ([0, 10, 20] + list(range(100, 1000)) + [8000, 9000, 9001, 9002], 8000),
         ([0, 10, 20] + list(range(100, 1000)) + [9000, 9000, 9001, 9002], 8902),
     ]
@@ -143,27 +155,24 @@ if __name__ == "__main__":
 
         result = sorting(deepcopy(nums))
         output = f"      sorting = "
-        output += " " * (10 - len(output))
-        test_ok = solution == result
         output += str(result)
+        test_ok = solution == result
         output += " " * (50 - len(output))
         output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
         result = sorting2(deepcopy(nums))
         output = f"     sorting2 = "
-        output += " " * (10 - len(output))
-        test_ok = solution == result
         output += str(result)
+        test_ok = solution == result
         output += " " * (50 - len(output))
         output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
         result = heaps(deepcopy(nums))
         output = f"        heaps = "
-        output += " " * (10 - len(output))
-        test_ok = solution == result
         output += str(result)
+        test_ok = solution == result
         output += " " * (50 - len(output))
         output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
         print(output)
