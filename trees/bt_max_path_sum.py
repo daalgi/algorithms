@@ -149,21 +149,19 @@ if __name__ == "__main__":
         print_tree(root)
 
         result = dfs(root)
-        output = f"\t     dfs = "
-        output += " " * (10 - len(output))
+        output = f"      dfs = "
         test_ok = solution == result
         output += str(result)
         output += " " * (45 - len(output))
-        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
         result = dfs_opt(root)
-        output = f"\t dfs_opt = "
-        output += " " * (10 - len(output))
+        output = f"  dfs_opt = "
         test_ok = solution == result
         output += str(result)
         output += " " * (45 - len(output))
-        output += f'\t\tTest: {"OK" if test_ok else "NOT OK"}'
+        output += f'Test: {"OK" if test_ok else "NOT OK"}'
         print(output)
 
         print()
