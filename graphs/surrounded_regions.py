@@ -107,7 +107,6 @@ def bfs_iterative(grid: List[List[int]]) -> List[List[int]]:
     return grid
 
 
-
 if __name__ == "__main__":
     print("-" * 60)
     print("Surrounded regions")
