@@ -95,7 +95,7 @@ def bfs_iterative(grid: List[List[int]]) -> List[List[int]]:
     for row in range(rows):
         for col in range(cols):
             if grid[row][col] == 0:
-                # If it's a gate, BFS to explore the neighboring 
+                # If it's a gate, BFS to explore the neighboring
                 # cells and update the distance of each reachable
                 # cell (only if there's no closer gate)
                 explore_neighbors(row, col)
